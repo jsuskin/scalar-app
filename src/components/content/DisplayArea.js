@@ -3,9 +3,7 @@ import Fretboard from './fretboard/Fretboard';
 import ScaleDisplay from './ScaleDisplay';
 import FretboardButtons from './FretboardButtons';
 
-class DisplayArea extends Component {
-
-  render() {
+function DisplayArea(props) {
     const {
       showScale,
       addToFretMap,
@@ -18,8 +16,12 @@ class DisplayArea extends Component {
       handleClearFretboard,
       handleFillOctaves,
       highlightFretNumbers,
-      toggleFlatsSharps
-    } = this.props;
+      toggleFlatsSharps,
+      handleAddFrets,
+      handleSelectFretNumber,
+      handleChangeTuning,
+      handleTuneStrings
+    } = props;
 
     return (
       <div className="display-area">
@@ -30,10 +32,10 @@ class DisplayArea extends Component {
           highlightFretNumbers={highlightFretNumbers}
           handleFretClick={handleFretClick}
           selectedNotes={selectedNotes}
-          handleAddFrets={this.props.handleAddFrets}
-          handleSelectFretNumber={this.props.handleSelectFretNumber}
-          handleChangeTuning={this.props.handleChangeTuning}
-          handleTuneStrings={this.props.handleTuneStrings}
+          handleAddFrets={handleAddFrets}
+          handleSelectFretNumber={handleSelectFretNumber}
+          handleChangeTuning={handleChangeTuning}
+          handleTuneStrings={handleTuneStrings}
         />
         <div className="bottom-display">
           <ScaleDisplay
@@ -51,8 +53,6 @@ class DisplayArea extends Component {
         </div>
       </div>
     );
-  }
-
 }
 
 export default DisplayArea;
