@@ -1,0 +1,97 @@
+.fretboard {
+
+  .tuning-container {
+    position: relative;
+    left: -2.5em;
+
+    .tune-all-strings {
+      position: absolute;
+      padding: .234em;
+      // padding: 0.49890377588306944vh 0.28444444444444444vw;
+      font-size: 1.5em;
+      font-weight: 600;
+      -webkit-user-select: none; /* Chrome/Safari */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* IE10+ */
+      -o-user-select: none;
+      user-select: none;
+      cursor: pointer;
+      // border: 1px dotted orange;
+
+      &.tune-up {
+        top: -.95em;
+        // top: -1.9vh;
+        transform: rotate(-90deg);
+      }
+
+      &.tune-down {
+        bottom: -9.1em;
+        // bottom: -25.9vh;
+        transform: rotate(90deg);
+      }
+    }
+
+    .tuning {
+      // border: 1px solid red;
+      padding-left: 10px;
+      position: absolute;
+      border-radius: .333em;
+      top: 17px;
+      line-height: 2;
+      // font-size: .85em;
+      font-size: 1.6565164433617539vh;
+      font-weight: 600;
+    }
+  }
+
+  .strings {
+    // padding: 15px 0;
+    padding: 1.8270401948842874vh 0;
+    // padding: 0.9375em 0;
+    border-radius: .333em;
+    // border: 2px solid $grey-2;
+
+    .string {
+      display: table;
+      table-layout: fixed;
+      width: 89vw;
+      height: 3.33vh;
+
+      .fret-container {
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+
+        .string-fragment {
+          position: relative;
+          height: 1px;
+          // height: 0.17793594306049823vh;
+
+          .dot {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 1.333em;
+            height: 1.333em;
+            border-radius: 50%;
+            line-height:1.5;
+            z-index: 1;
+          }
+
+          .note {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            font-size: .666em;
+            font-weight: 600;
+            line-height: 1.5;
+          }
+        }
+      }
+    }
+  }
+}

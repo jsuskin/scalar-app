@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Header from './components/header/Header';
+import Content from './components/content/Content';
+import Footer from './components/footer/Footer';
+import './scss/main.scss';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    colorScheme: 'brown'
+  }
+
+  handleChangeColorScheme = color => {
+    this.setState({
+      colorScheme: color
+    });
+  }
+
+  render() {
+    return (
+      <div className={`app ${this.state.colorScheme}-theme`}>
+        <Header
+          colorScheme={this.state.colorScheme}
+          handleChangeColorScheme={this.handleChangeColorScheme}
+        />
+        <Content />
+        <Footer />
+      </div>
+    );
+  }
 }
 
 export default App;

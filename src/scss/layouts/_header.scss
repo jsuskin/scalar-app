@@ -1,0 +1,56 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;
+
+  .app-title {
+    padding-left: 5.56vw;
+    font-size: 5.85vh;
+    font-weight: 300;
+    letter-spacing: .256em;
+  }
+
+  .scheme-selection-container {
+    margin-right: 5.56vw;
+    border-radius: 10px;
+
+    .scheme-selector {
+      display: flex;
+      justify-content: center;
+      padding: .25em;
+
+      .color-selection {
+        margin: 0 .25vw;
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 2.5px;
+        cursor: pointer;
+
+        &.brown {
+          background: -webkit-linear-gradient(152deg, darken(rgba($light-1, 0.8), 20%), darken(rgba($light-1, 0.8), 15%));
+        }
+
+        &.blue {
+          background: -webkit-linear-gradient(152deg, darken(rgba($light-2, 0.8), 20%), darken(rgba($light-2, 0.8), 15%));
+        }
+
+        &.pink {
+          background: -webkit-linear-gradient(152deg, darken(rgba($light-3, 0.8), 20%), darken(rgba($light-3, 0.8), 15%));
+        }
+
+        &.green {
+          background: -webkit-linear-gradient(152deg, darken(rgba($light-4, 0.8), 20%), darken(rgba($light-4, 0.8), 15%));
+        }
+
+        &.yellow {
+          background: -webkit-linear-gradient(152deg, darken(rgba($light-5, 0.8), 20%), darken(rgba($light-5, 0.8), 15%));
+        }
+
+        &.white {
+          background: -webkit-linear-gradient(152deg, darken(rgba($light-6, 0.8), 20%), darken(rgba($light-6, 0.8), 15%));
+        }
+      }
+    }
+  }
+}

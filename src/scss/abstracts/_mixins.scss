@@ -1,0 +1,69 @@
+@mixin theme($primary, $secondary) {
+  $offwhite-1: rgba($secondary, 0.125);
+  $offwhite-2: lighten($secondary, 90%);
+  $grey-1: darken($offwhite-1, 50%);
+  $grey-2: rgba($primary, 0.8);
+
+  background: $offwhite-1;
+  transition: all .666s ease;
+  header, footer {
+    transition: all .666s ease;
+    background: -webkit-linear-gradient(152deg, rgba(lighten($primary, 6.66%), 0.9) 0%, rgba(lighten($primary, 3.33%), 0.95) 20%, $primary 100%);
+  }
+  footer span {
+    opacity: .666;
+    background: transparent;
+    color: $secondary;
+    &.active {
+      opacity: 1;
+      transition: all .666s ease;
+      &:hover {
+        background: $secondary;
+        color: $primary;
+      }
+    }
+  }
+  .app-title {
+    transition: all .5s ease;
+    background: -webkit-linear-gradient(right, darken($secondary, 6.66%) 0%, $secondary 20%, lighten($primary, 66.6%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .selection-container select, .fretboard-btn {
+    transition: all .5s ease;
+    background: $grey-1;
+  }
+  .selection-container select, .selection-container label, .fretboard-btn, .note-display {
+    color: $primary;
+  }
+  .strings {
+    border: 2px solid $grey-2;
+  }
+  .fret-numbers, .compatible-scales-container, .tune-all-strings {
+    color: $grey-2;
+  }
+  .dot, .string-fragment {
+    background: $primary;
+  }
+  .highlighted-fret {
+    background: darken($secondary, 6.66%);
+  }
+  .fret-container:not(:last-child) {
+    border-right: 1px solid $primary;
+  }
+  .fret-container:not(:last-child), .note, .note-display-root {
+    color: $offwhite-2;
+  }
+  .note-display-root {
+    background: $grey-2;
+  }
+  .compatible-scales li:hover, .tune-all-strings:hover {
+    color: $secondary;
+  }
+  .tuning {
+    // background: $grey-1;
+    select {
+      background: transparent;
+    }
+  }
+}
