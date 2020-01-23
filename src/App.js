@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Header from './components/header/Header';
-import Content from './components/content/Content';
-import Footer from './components/footer/Footer';
+import Header from './components/Header/Header';
+import Content from './components/Content/Content';
+import Footer from './components/Footer/Footer';
 import { notes, scales } from './data';
 import { updateState } from './utils/HelperMethods';
 import './scss/main.scss';
@@ -10,6 +10,7 @@ const fretMap = [];
 
 class App extends Component {
   state = {
+    iteration: 0,
     colorScheme: 'brown',
     fretMap: [],
     selectedFrets: [],
@@ -19,7 +20,8 @@ class App extends Component {
     selectedScale: 'None',
     selectedKey: 'A',
     showScale: false,
-    prevState: {}
+    prevState: {},
+    showPrevState: false
   }
 
   componentDidMount() {
@@ -86,25 +88,30 @@ class App extends Component {
     const root = showScale ? this.state.selectedKey : e.target.value;
 
     const setScale = (scale, root) => {
-      const chrom = Object.values(notes)
-      const chromFromRoot = [...chrom.slice(chrom.indexOf(root)), ...chrom.slice(0, chrom.indexOf(root))];
+      const chrom = Object.values(notes);
+      const rootIdx = chrom.indexOf(root);
+      const chromFromRoot = [...chrom.slice(rootIdx), ...chrom.slice(0, rootIdx)];
+
       const scaleNotes = scales[scale].map(idx => chromFromRoot[idx]);
+
       const selectedFrets = this.state.fretMap.filter(fret => scaleNotes.includes(fret.split('-')[4]));
+
+      const selectedNoteIndices = scales[scale].map(i => {
+        const rootIdx = Object.values(notes).indexOf(root);
+        const idx = i + rootIdx < 12 ? i + rootIdx : i + rootIdx - 12;
+
+        return [
+          idx,
+          selectedFrets.map(fret => fret.split('-')[4]).filter(note => notes[idx] === note).length
+        ];
+      });
 
       this.setState(updateState(
         this.state,
         {
           [e.target.name]: e.target.value,
           selectedFrets: e.target.value === 'None' ? this.state.selectedFrets : selectedFrets,
-          selectedNoteIndices: e.target.value === 'None' ? this.state.selectedNoteIndices : scales[scale].map(i => {
-            const rootIdx = Object.values(notes).indexOf(root);
-            const idx = i + rootIdx < 12 ? i + rootIdx : i + rootIdx - 12;
-
-            return [
-              idx,
-              selectedFrets.map(fret => fret.split('-')[4]).filter(note => notes[idx] === note).length
-            ];
-          }),
+          selectedNoteIndices: e.target.value === 'None' ? this.state.selectedNoteIndices: selectedNoteIndices,
           showScale: e.target.name === 'selectedScale' ? e.target.value !== 'None' :  this.state.selectedScale !== 'None'
         }
       ));
@@ -187,7 +194,7 @@ class App extends Component {
     }
   }
 
-  addToFretMap = fretName => { fretMap.push(fretName) }
+  addToFretMap = fretName => fretMap.push(fretName)
 
   toggleFlatsSharps = () => {
     console.log('flats')
@@ -246,6 +253,18 @@ class App extends Component {
     ));
   }
 
+  handleIteration = () => {
+    console.log(this.state.showPrevState)
+    this.setState(updateState(
+      {...this.state},
+      {
+        ...this.state.prevState,
+        prevState: this.state
+      },
+      !this.state.showPrevState
+    ));
+  }
+
   render() {
     return (
       <div className={`app ${this.state.colorScheme}-theme`}>
@@ -257,7 +276,10 @@ class App extends Component {
           {...this.state}
           {...this}
         />
-        <Footer {...this.state} />
+        <Footer
+          {...this.state}
+          handleIteration={this.handleIteration}
+        />
       </div>
     );
   }

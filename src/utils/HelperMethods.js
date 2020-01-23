@@ -1,19 +1,10 @@
-export function updateState(state, obj) {
-  return state => {
-    const prevState = limitIterationsOfPrevStateInPrevState(state);
-    return {
-      ...state,
-      ...obj,
-      prevState: prevState
-    }
-  }
-}
+let iteration = 0;
 
 function limitIterationsOfPrevStateInPrevState(previousState) {
   // separate prevState from the rest of state
   const obj = () => {
     const { prevState, ...rest } = previousState;
-    return {prevState:prevState, rest:rest}
+    return { prevState: prevState, rest: rest }
   }
 
   // omit 2nd level prevState key
@@ -21,4 +12,18 @@ function limitIterationsOfPrevStateInPrevState(previousState) {
 
   // combine them
   return { ...obj().rest, prevState: rest }
+}
+
+export function updateState(state, obj, showPrevState = false) {
+  iteration += 1;
+  return state => {
+    const prevState = limitIterationsOfPrevStateInPrevState(state);
+    return {
+      ...state,
+      ...obj,
+      prevState: prevState,
+      iteration: iteration,
+      showPrevState: showPrevState
+    }
+  }
 }

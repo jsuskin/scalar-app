@@ -1,16 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Footer extends Component {
-
-  render() {
-    return (
-      <footer>
-        <span className="active">↩︎</span>
-        <span className="active">↪</span>
-      </footer>
-    );
-  }
-
+function Footer(props) {
+  return (
+    <footer>
+      <span onClick={() => props.handleIteration()} className={`${!Object.keys(props.prevState).length || props.showPrevState ? 'disabled' : ''}`}>↩︎</span>
+      <span onClick={() => props.handleIteration()} className={`${!Object.keys(props.prevState).length || !props.showPrevState ? 'disabled' : ''}`}>↪</span>
+    </footer>
+  );
 }
 
 export default Footer;

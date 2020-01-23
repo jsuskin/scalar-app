@@ -11,10 +11,10 @@
     background: -webkit-linear-gradient(152deg, rgba(lighten($primary, 6.66%), 0.9) 0%, rgba(lighten($primary, 3.33%), 0.95) 20%, $primary 100%);
   }
   footer span {
-    opacity: .666;
+    opacity: .333;
     background: transparent;
     color: $secondary;
-    &.active {
+    &:not(.disabled) {
       opacity: 1;
       transition: all .666s ease;
       &:hover {

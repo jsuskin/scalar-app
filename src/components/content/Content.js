@@ -1,5 +1,5 @@
 import React from 'react';
-import CompatibleScales from './CompatibleScales';
+import CompatibleScales from './CompatibleScales/CompatibleScales';
 import ScaleSelect from './ScaleSelect';
 import DisplayArea from './DisplayArea';
 
@@ -7,6 +7,7 @@ function Content(props) {
   const selectedNotes = props.selectedNoteIndices
     .map(x => x[0])
     .sort((a,b) => a > b ? 1 : -1);
+
   const selectedFrets = props.selectedFrets
     .map(fret => fret.split('-').slice(0, 4).join('-'));
 
