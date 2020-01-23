@@ -206,11 +206,13 @@ body {
 
 
 .compatible-scales-container {
+  // border: 1px dotted purple;
   visibility: hidden;
   opacity: 0;
   transition: visibility .1s, opacity 1.3s ease-in;
   width: 89vw;
   height: 12.18vh;
+  // height: 18vh;
   // margin-top: -5.6vh;
   margin-bottom: 5.6vh;
 
@@ -231,7 +233,8 @@ body {
   .compatible-scales {
     overflow: scroll;
     width: 100%;
-    line-height: 1.5;
+    // line-height: 1.5;
+    line-height: 100%;
     // border: 1px dotted orange;
     display: grid;
     grid-template-columns: 1fr;

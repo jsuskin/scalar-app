@@ -1,3 +1,5 @@
+import { notes } from '../data';
+
 let iteration = 0;
 
 function limitIterationsOfPrevStateInPrevState(previousState) {
@@ -26,4 +28,16 @@ export function updateState(state, obj, showPrevState = false) {
       showPrevState: showPrevState
     }
   }
+}
+
+export function updateFretMap(tuning, frets) {
+  const openIdx = openNote => +Object.keys(notes).find(key => notes[key] === openNote);
+  const noteIdx = (fIdx, openNote) => openIdx(openNote) + fIdx - 12 * Math.floor((openIdx(openNote) + fIdx)/12);
+
+  return frets.map(fret => {
+    let [ str, strNum, fr, frNum, note ] = fret.split("-");
+    note = notes[noteIdx(+frNum,notes[openIdx(tuning[strNum - 1])])];
+
+    return `${str}-${strNum}-${fr}-${frNum}-${note}`;
+  });
 }

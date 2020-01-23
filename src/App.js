@@ -3,7 +3,7 @@ import Header from './components/Header/Header';
 import Content from './components/Content/Content';
 import Footer from './components/Footer/Footer';
 import { notes, scales } from './data';
-import { updateState } from './utils/HelperMethods';
+import { updateState, updateFretMap } from './utils/HelperMethods';
 import './scss/main.scss';
 
 const fretMap = [];
@@ -159,7 +159,6 @@ class App extends Component {
         selectedFrets: [],
         highlightFretNumbers: [],
         selectedNoteIndices: [],
-        tuning: ['E', 'B', 'G', 'D', 'A', 'E'],
         selectedScale: 'None',
         showScale: false
       }
@@ -200,6 +199,7 @@ class App extends Component {
     console.log('flats')
   }
 
+  // highlight all dots across one fret
   handleSelectFretNumber = num => {
     const fretSelected = this.state.highlightFretNumbers.includes(num);
     const deselectFret = this.state.highlightFretNumbers.filter(x => x !== num);
@@ -211,14 +211,33 @@ class App extends Component {
     ));
   }
 
+  // tune 1 string
   handleChangeTuning = (e, strNum) => {
     const newTuning = [...this.state.tuning.slice(0, strNum), e.target.value, ...this.state.tuning.slice(strNum + 1)];
 
-    this.setState({
-      tuning: newTuning
+    const fretMap = updateFretMap(newTuning, this.state.fretMap);
+
+    // WRONG ⬇⬇⬇⬇⬇⬇ FILLS ALL OCTAVES ⬇⬇⬇⬇⬇⬇
+    const selectedFrets = fretMap.filter(fret => {
+      return this.state.selectedNoteIndices
+        .map(arr => arr[0])
+        .includes(
+          Object.values(notes)
+          .indexOf(fret.split("-")[4])
+        );
     });
+
+    this.setState(updateState(
+      this.state,
+      {
+        tuning: newTuning,
+        fretMap: fretMap,
+        selectedFrets: selectedFrets
+      }
+    ));
   }
 
+  // tune all strings
   handleTuneStrings = step => {
     const newTuning = this.state.tuning.map(string => {
       const currentValue = Object.values(notes).indexOf(string);
@@ -227,36 +246,38 @@ class App extends Component {
       return notes[newValue];
     });
 
+    const selectedFrets = this.state.selectedFrets.map(fret => {
+      let [ str, stringNum, fr, fretNum, note ] = fret.split('-');
+
+      fretNum =
+        step > 0 && +fretNum === 0 ?
+          23 :
+        (step > 0 && +fretNum === 1) || (step < 0 && +fretNum === 23) ?
+          [0, 24] :
+        step < 0 && +fretNum === 24 ?
+          1 :
+          +fretNum - step;
+
+      const fretString = num => `${str}-${stringNum}-${fr}-${num}-${note}`;
+
+      return Array.isArray(fretNum) ? fretNum.map(num => fretString(num)) : fretString(fretNum);
+    })
+      .flat()
+      .filter((item, idx, self) => self.indexOf(item) === idx)
+
     this.setState(updateState(
       this.state,
       {
         tuning: newTuning,
-        selectedFrets: this.state.selectedFrets.map(fret => {
-          let [ str, stringNum, fr, fretNum, note ] = fret.split('-');
-
-          fretNum =
-            step > 0 && +fretNum === 0 ?
-              23 :
-            (step > 0 && +fretNum === 1) || (step < 0 && +fretNum === 23) ?
-              [0, 24] :
-            step < 0 && +fretNum === 24 ?
-              1 :
-              +fretNum - step;
-
-          const fretString = num => `${str}-${stringNum}-${fr}-${num}-${note}`;
-
-          return Array.isArray(fretNum) ? fretNum.map(num => fretString(num)) : fretString(fretNum);
-        })
-          .flat()
-          .filter((item, idx, self) => self.indexOf(item) === idx)
+        selectedFrets: selectedFrets,
+        fretMap: updateFretMap(newTuning, this.state.fretMap)
       }
     ));
   }
 
   handleIteration = () => {
-    console.log(this.state.showPrevState)
     this.setState(updateState(
-      {...this.state},
+      this.state,
       {
         ...this.state.prevState,
         prevState: this.state

@@ -29,9 +29,15 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  .selection-container select, .fretboard-btn {
+  .selection-container select {
     transition: all .5s ease;
-    background: $grey-1;
+    // background: $grey-1;
+    background: -webkit-linear-gradient(145deg, $grey-1 0%, lighten($grey-1, 25%) 100%);
+  }
+  .fretboard-btn {
+    transition: all .5s ease;
+    // background: $grey-1;
+    background: -webkit-radial-gradient(lighten($grey-1, 25%), $grey-1);
   }
   .selection-container select, .selection-container label, .fretboard-btn, .note-display {
     color: $primary;

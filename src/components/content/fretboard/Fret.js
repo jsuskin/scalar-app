@@ -7,7 +7,7 @@ class Fret extends Component {
   }
 
   componentDidMount() {
-    this.props.addToFretMap(this.state.fretName)
+    this.props.addToFretMap(this.state.fretName);
   }
 
   render() {
