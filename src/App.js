@@ -3,7 +3,7 @@ import Header from './components/Header/Header';
 import Content from './components/Content/Content';
 import Footer from './components/Footer/Footer';
 import { notes, scales } from './data';
-import { updateState, updateFretMap } from './utils/HelperMethods';
+import { updateState, updateFretMap, selectedNoteIndices } from './utils/HelperMethods';
 import './scss/main.scss';
 
 const fretMap = [];
@@ -25,16 +25,10 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      fretMap: [...fretMap]
-    });
+    this.setState({ fretMap: [...fretMap] });
   }
 
-  handleChangeColorScheme = color => {
-    this.setState({
-      colorScheme: color
-    });
-  }
+  handleChangeColorScheme = color => this.setState({ colorScheme: color })
 
   handleFretClick = (fret, noteIdx) => {
     // format to store in this.state.selectedFrets
@@ -70,6 +64,7 @@ class App extends Component {
     ));
   }
 
+  // remove all instances of a note by clicking on that note from scale display
   handleRemoveNote = note => {
     this.setState(updateState(
       this.state,
@@ -91,28 +86,17 @@ class App extends Component {
       const chrom = Object.values(notes);
       const rootIdx = chrom.indexOf(root);
       const chromFromRoot = [...chrom.slice(rootIdx), ...chrom.slice(0, rootIdx)];
-
       const scaleNotes = scales[scale].map(idx => chromFromRoot[idx]);
-
       const selectedFrets = this.state.fretMap.filter(fret => scaleNotes.includes(fret.split('-')[4]));
-
-      const selectedNoteIndices = scales[scale].map(i => {
-        const rootIdx = Object.values(notes).indexOf(root);
-        const idx = i + rootIdx < 12 ? i + rootIdx : i + rootIdx - 12;
-
-        return [
-          idx,
-          selectedFrets.map(fret => fret.split('-')[4]).filter(note => notes[idx] === note).length
-        ];
-      });
+      const noScaleValue = e.target.value === 'None';
 
       this.setState(updateState(
         this.state,
         {
           [e.target.name]: e.target.value,
-          selectedFrets: e.target.value === 'None' ? this.state.selectedFrets : selectedFrets,
-          selectedNoteIndices: e.target.value === 'None' ? this.state.selectedNoteIndices: selectedNoteIndices,
-          showScale: e.target.name === 'selectedScale' ? e.target.value !== 'None' :  this.state.selectedScale !== 'None'
+          selectedFrets: noScaleValue ? this.state.selectedFrets : selectedFrets,
+          selectedNoteIndices: noScaleValue ? this.state.selectedNoteIndices : selectedNoteIndices(scale, root, selectedFrets),
+          showScale: e.target.name === 'selectedScale' ? !noScaleValue : this.state.selectedScale !== 'None'
         }
       ));
     }
@@ -133,18 +117,7 @@ class App extends Component {
       this.state,
       {
         selectedFrets: selectedFrets,
-        selectedNoteIndices: scales[scaleName].map(i => {
-          const rootIdx = Object.values(notes).indexOf(root);
-          const idx = i + rootIdx < 12 ? i + rootIdx : i + rootIdx - 12;
-
-          return [
-            idx,
-            selectedFrets
-              .map(fret => fret.split('-')[4])
-              .filter(note => notes[idx] === note)
-              .length
-          ];
-        }),
+        selectedNoteIndices: selectedNoteIndices(scaleName, root, selectedFrets),
         selectedScale: scaleName,
         selectedKey: root,
         showScale: true
@@ -170,15 +143,20 @@ class App extends Component {
       this.state,
       {
         selectedFrets: this.state.fretMap.filter(fret => {
-          return this.state.selectedNoteIndices.map(arr => {
-            return notes[arr[0]]
-          }).includes(fret.split('-')[4])
+          return this.state.selectedNoteIndices
+            .map(arr => {
+              return notes[arr[0]];
+            })
+            .includes(fret.split('-')[4])
         }),
         selectedNoteIndices: this.state.selectedNoteIndices.map(arr => {
           return [
             arr[0],
-            this.state.fretMap.map(fret => fret.split('-')[4]).filter(note => note === notes[arr[0]]).length
-          ]
+            this.state.fretMap
+              .map(fret => fret.split('-')[4])
+              .filter(note => note === notes[arr[0]])
+              .length
+          ];
         })
       }
     ));
@@ -236,7 +214,7 @@ class App extends Component {
       let [ str, strNum, fr, frNum, note ] = fret.split("-");
       const newFret = +frNum - difference;
 
-      frNum = newFret < 0 ? 24 + newFret : newFret > 23 ? newFret - 24 : newFret;
+      frNum = newFret < 0 ? 24 + newFret : newFret > 24 ? newFret - 24 : newFret;
 
       return +strNum !== changedStringIdx + 1 ? fret : `${str}-${strNum}-${fr}-${frNum}-${note}`
     });

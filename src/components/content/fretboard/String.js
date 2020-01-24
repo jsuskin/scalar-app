@@ -22,6 +22,8 @@ class String extends Component {
                   fIdx={fIdx}
                   sIdx={sIdx}
                   selected={this.props.selectedFrets.includes(fretName)}
+                  showScale={this.props.showScale}
+                  selectedKey={this.props.selectedKey}
                   handleFretClick={this.props.handleFretClick}
                   handleAddFrets={this.props.handleAddFrets}
                   addToFretMap={this.props.addToFretMap}

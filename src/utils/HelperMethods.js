@@ -1,4 +1,4 @@
-import { notes } from '../data';
+import { notes, scales } from '../data';
 
 let iteration = 0;
 
@@ -56,3 +56,13 @@ export function updateFretMap(tuning, frets) {
     return `${str}-${strNum}-${fr}-${frNum}-${note}`;
   });
 }
+
+export const selectedNoteIndices = (scale, root, selectedFrets) => scales[scale].map(i => {
+  const rootIdx = Object.values(notes).indexOf(root);
+  const idx = i + rootIdx < 12 ? i + rootIdx : i + rootIdx - 12;
+
+  return [
+    idx,
+    selectedFrets.map(fret => fret.split('-')[4]).filter(note => notes[idx] === note).length
+  ];
+});

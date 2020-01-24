@@ -51,6 +51,13 @@
   .dot, .string-fragment {
     background: $primary;
   }
+  .dot.root-note {
+    background: $secondary;
+    border: 2px solid $primary;
+  }
+  .note.root-note {
+    color: $primary;
+  }
   .highlighted-fret {
     background: darken($secondary, 6.66%);
   }

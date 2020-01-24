@@ -32,6 +32,8 @@ function DisplayArea(props) {
           highlightFretNumbers={highlightFretNumbers}
           handleFretClick={handleFretClick}
           selectedNotes={selectedNotes}
+          showScale={showScale}
+          selectedKey={selectedKey}
           handleAddFrets={handleAddFrets}
           handleSelectFretNumber={handleSelectFretNumber}
           handleChangeTuning={handleChangeTuning}

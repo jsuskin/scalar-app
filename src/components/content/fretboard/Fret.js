@@ -17,10 +17,10 @@ class Fret extends Component {
       sIdx,
       selected,
       openNote,
-      highlightFret
+      highlightFret,
+      selectedKey,
+      showScale
     } = this.props;
-
-    // console.log(this.state.fretName);
 
     return (
       <li
@@ -31,8 +31,22 @@ class Fret extends Component {
         <div id={fretName} className="fret">
           <div className="string-fragment">
             <div className={`selected-display${selected ? ' selected' : ''}`}>
-              <div className="note">{note(openNote, fIdx)[1]}</div>
-              <div className={`dot${highlightFret ? ' highlighted-fret' : ''}`}></div>
+              <div
+                className={
+                  `note
+                  ${showScale && selectedKey === note(openNote, fIdx)[1] ? ' root-note' : ''}`
+                }
+              >
+                {note(openNote, fIdx)[1]}
+              </div>
+              <div
+                className={
+                  `dot
+                  ${highlightFret ? ' highlighted-fret' : ''}
+                  ${showScale && selectedKey === note(openNote, fIdx)[1] ? ' root-note' : ''}`
+                }
+              >
+              </div>
             </div>
           </div>
         </div>
