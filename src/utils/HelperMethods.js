@@ -32,10 +32,25 @@ export function updateState(state, obj, showPrevState = false) {
 
 export function updateFretMap(tuning, frets) {
   const openIdx = openNote => +Object.keys(notes).find(key => notes[key] === openNote);
-  const noteIdx = (fIdx, openNote) => openIdx(openNote) + fIdx - 12 * Math.floor((openIdx(openNote) + fIdx)/12);
+
+  const noteIdx = (fIdx, openNote) => {
+    // 0 if fIdx + openIdx < 12, 1 if > 12 & < 24, etc.
+    const multiplier = Math.floor((openIdx(openNote) + fIdx) / 12);
+
+    // ex: openNote = 'G', fIdx = 17
+    // --> openIdx('G') + 17 - 12 * Math.floor((10 + 17) / 12)
+    // --> 10 + 17 - 12 * Math.floor((10 + 17) / 12)
+    // --> 27 - 12 * Math.floor(27 / 12)
+    // --> 27 - 12 * Math.floor(2.25)
+    // --> 27 - 12 * 2
+    // --> 27 - 24
+    // --> 3
+    return openIdx(openNote) + fIdx - 12 * multiplier;
+  }
 
   return frets.map(fret => {
     let [ str, strNum, fr, frNum, note ] = fret.split("-");
+
     note = notes[noteIdx(+frNum,notes[openIdx(tuning[strNum - 1])])];
 
     return `${str}-${strNum}-${fr}-${frNum}-${note}`;

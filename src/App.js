@@ -213,18 +213,32 @@ class App extends Component {
 
   // tune 1 string
   handleChangeTuning = (e, strNum) => {
-    const newTuning = [...this.state.tuning.slice(0, strNum), e.target.value, ...this.state.tuning.slice(strNum + 1)];
+    const newTuning = [
+      ...this.state.tuning.slice(0, strNum),
+      e.target.value,
+      ...this.state.tuning.slice(strNum + 1)
+    ];
 
+    const changedStringIdx =
+      this.state.tuning
+        .findIndex((string, idx) => {
+          return newTuning[idx] !== string;
+        });
+
+    const noteIdx = tuning => {
+      return Object.values(notes).indexOf(tuning[changedStringIdx]);
+    }
+
+    const difference = noteIdx(newTuning) - noteIdx(this.state.tuning);
     const fretMap = updateFretMap(newTuning, this.state.fretMap);
 
-    // WRONG ⬇⬇⬇⬇⬇⬇ FILLS ALL OCTAVES ⬇⬇⬇⬇⬇⬇
-    const selectedFrets = fretMap.filter(fret => {
-      return this.state.selectedNoteIndices
-        .map(arr => arr[0])
-        .includes(
-          Object.values(notes)
-          .indexOf(fret.split("-")[4])
-        );
+    const selectedFrets = this.state.selectedFrets.map(fret => {
+      let [ str, strNum, fr, frNum, note ] = fret.split("-");
+      const newFret = +frNum - difference;
+
+      frNum = newFret < 0 ? 24 + newFret : newFret > 23 ? newFret - 24 : newFret;
+
+      return +strNum !== changedStringIdx + 1 ? fret : `${str}-${strNum}-${fr}-${frNum}-${note}`
     });
 
     this.setState(updateState(
