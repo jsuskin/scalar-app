@@ -56,7 +56,11 @@
     border: 2px solid $primary;
   }
   .note.root-note {
-    color: $primary;
+    @if (lightness($secondary) < 50) {
+      color: lighten($primary, 100%);
+    } @else {
+      color: $primary;
+    }
   }
   .highlighted-fret {
     background: darken($secondary, 6.66%);

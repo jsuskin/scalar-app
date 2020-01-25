@@ -18,7 +18,7 @@ function Content(props) {
         selectedNoteIndices={props.selectedNoteIndices}
         selectedKey={props.selectedKey}
         showScale={props.showScale}
-        handleSwitchScale={props.handleSwitchScale}
+        selectCompatibleScale={props.selectCompatibleScale}
       />
       <ScaleSelect
         selectedScale={props.selectedScale}

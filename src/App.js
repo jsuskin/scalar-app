@@ -3,7 +3,7 @@ import Header from './components/Header/Header';
 import Content from './components/Content/Content';
 import Footer from './components/Footer/Footer';
 import { notes, scales } from './data';
-import { updateState, updateFretMap, selectedNoteIndices } from './utils/HelperMethods';
+import { updateState, updateFretMap, selectedNoteIndices, newTuningSelectedFrets, newScaleSelectedFrets } from './utils/HelperMethods';
 import './scss/main.scss';
 
 const fretMap = [];
@@ -78,47 +78,32 @@ class App extends Component {
   }
 
   handleChange = e => {
-    const showScale = e.target.name === 'selectedScale' && e.target.value !== 'None';
+    const noScaleValue = e.target.value === 'None';
+    const showScale = e.target.name === 'selectedScale' && !noScaleValue;
     const scale = showScale ? e.target.value : this.state.selectedScale;
     const root = showScale ? this.state.selectedKey : e.target.value;
+    const selectedFrets = newScaleSelectedFrets(scale, root, this.state.fretMap);
 
-    const setScale = (scale, root) => {
-      const chrom = Object.values(notes);
-      const rootIdx = chrom.indexOf(root);
-      const chromFromRoot = [...chrom.slice(rootIdx), ...chrom.slice(0, rootIdx)];
-      const scaleNotes = scales[scale].map(idx => chromFromRoot[idx]);
-      const selectedFrets = this.state.fretMap.filter(fret => scaleNotes.includes(fret.split('-')[4]));
-      const noScaleValue = e.target.value === 'None';
-
-      this.setState(updateState(
-        this.state,
-        {
-          [e.target.name]: e.target.value,
-          selectedFrets: noScaleValue ? this.state.selectedFrets : selectedFrets,
-          selectedNoteIndices: noScaleValue ? this.state.selectedNoteIndices : selectedNoteIndices(scale, root, selectedFrets),
-          showScale: e.target.name === 'selectedScale' ? !noScaleValue : this.state.selectedScale !== 'None'
-        }
-      ));
-    }
-
-    setScale(scale, root);
+    this.setState(updateState(
+      this.state,
+      {
+        [e.target.name]: e.target.value,
+        selectedFrets: noScaleValue ? this.state.selectedFrets : selectedFrets,
+        selectedNoteIndices: noScaleValue ? this.state.selectedNoteIndices : selectedNoteIndices(scale, root, selectedFrets),
+        showScale: e.target.name === 'selectedScale' ? !noScaleValue : this.state.selectedScale !== 'None'
+      }
+    ));
   }
 
-  handleSwitchScale = (root, scaleName) => {
-    // ['A', 'A#', 'B', 'C', ..., 'G', 'G#']
-    const chrom = Object.values(notes);
-    // ex: root = 'C' --> ['C', 'C#', 'D', ..., 'A#', 'B']
-    const chromFromRoot = [...chrom.slice(chrom.indexOf(root)), ...chrom.slice(0, chrom.indexOf(root))];
-    // ex: [0,2,4,5,7,9,11] --> ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-    const scaleNotes = scales[scaleName].map(idx => chromFromRoot[idx]);
-    const selectedFrets = this.state.fretMap.filter(fret => scaleNotes.includes(fret.split('-')[4]));
+  selectCompatibleScale = (root, scale) => {
+    const selectedFrets = newScaleSelectedFrets(scale, root, this.state.fretMap);
 
     this.setState(updateState(
       this.state,
       {
         selectedFrets: selectedFrets,
-        selectedNoteIndices: selectedNoteIndices(scaleName, root, selectedFrets),
-        selectedScale: scaleName,
+        selectedNoteIndices: selectedNoteIndices(scale, root, selectedFrets),
+        selectedScale: scale,
         selectedKey: root,
         showScale: true
       }
@@ -174,7 +159,7 @@ class App extends Component {
   addToFretMap = fretName => fretMap.push(fretName)
 
   toggleFlatsSharps = () => {
-    console.log('flats')
+    console.log('flats');
   }
 
   // highlight all dots across one fret
@@ -203,21 +188,10 @@ class App extends Component {
           return newTuning[idx] !== string;
         });
 
-    const noteIdx = tuning => {
-      return Object.values(notes).indexOf(tuning[changedStringIdx]);
-    }
-
-    const difference = noteIdx(newTuning) - noteIdx(this.state.tuning);
+    const noteIdx = tuning => Object.values(notes).indexOf(tuning[changedStringIdx]);
+    const diff = noteIdx(newTuning) - noteIdx(this.state.tuning);
     const fretMap = updateFretMap(newTuning, this.state.fretMap);
-
-    const selectedFrets = this.state.selectedFrets.map(fret => {
-      let [ str, strNum, fr, frNum, note ] = fret.split("-");
-      const newFret = +frNum - difference;
-
-      frNum = newFret < 0 ? 24 + newFret : newFret > 24 ? newFret - 24 : newFret;
-
-      return +strNum !== changedStringIdx + 1 ? fret : `${str}-${strNum}-${fr}-${frNum}-${note}`
-    });
+    const selectedFrets = newTuningSelectedFrets(this.state.selectedFrets, diff);
 
     this.setState(updateState(
       this.state,
@@ -238,24 +212,7 @@ class App extends Component {
       return notes[newValue];
     });
 
-    const selectedFrets = this.state.selectedFrets.map(fret => {
-      let [ str, stringNum, fr, fretNum, note ] = fret.split('-');
-
-      fretNum =
-        step > 0 && +fretNum === 0 ?
-          23 :
-        (step > 0 && +fretNum === 1) || (step < 0 && +fretNum === 23) ?
-          [0, 24] :
-        step < 0 && +fretNum === 24 ?
-          1 :
-          +fretNum - step;
-
-      const fretString = num => `${str}-${stringNum}-${fr}-${num}-${note}`;
-
-      return Array.isArray(fretNum) ? fretNum.map(num => fretString(num)) : fretString(fretNum);
-    })
-      .flat()
-      .filter((item, idx, self) => self.indexOf(item) === idx)
+    const selectedFrets = newTuningSelectedFrets(this.state.selectedFrets, step);
 
     this.setState(updateState(
       this.state,

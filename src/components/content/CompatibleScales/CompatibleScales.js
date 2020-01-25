@@ -8,7 +8,7 @@ function CompatibleScales(props) {
     selectedScale,
     selectedKey,
     selectedNoteIndices,
-    handleSwitchScale
+    selectCompatibleScale
   } = props;
 
   const scaleNames = Object.keys(scales);
@@ -80,7 +80,7 @@ function CompatibleScales(props) {
               <CompatibleScale
                 key={`${obj.root} ${obj.name}`}
                 {...obj}
-                handleSwitchScale={handleSwitchScale}
+                selectCompatibleScale={selectCompatibleScale}
                 scaleFromCurrentRoot={scaleFromCurrentRoot}
               />
             );

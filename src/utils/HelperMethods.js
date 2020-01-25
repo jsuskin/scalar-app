@@ -66,3 +66,33 @@ export const selectedNoteIndices = (scale, root, selectedFrets) => scales[scale]
     selectedFrets.map(fret => fret.split('-')[4]).filter(note => notes[idx] === note).length
   ];
 });
+
+export const newTuningSelectedFrets = (selectedFrets, diff) => {
+  return selectedFrets.map(fret => {
+    let [ str, stringNum, fr, fretNum, note ] = fret.split('-');
+    const newFret = +fretNum - diff;
+
+    fretNum = newFret < 0 ? 24 + newFret : newFret > 24 ? newFret - 24 : newFret === 0 || newFret === 24 ? [0, 24] : newFret;
+
+    const fretString = num => `${str}-${stringNum}-${fr}-${num}-${note}`;
+
+    return Array.isArray(fretNum) ? fretNum.map(num => fretString(num)) : fretString(fretNum);
+  })
+  .flat()
+  .filter((item, idx, self) => self.indexOf(item) === idx);}
+
+export const newScaleSelectedFrets = (scale, root, fretMap) => {
+
+  // ['A', 'A#', 'B', 'C', ..., 'G', 'G#']
+  const chrom = Object.values(notes);
+  const rootIdx = chrom.indexOf(root);
+
+  // ex: root = 'C' --> ['C', 'C#', 'D', ..., 'A#', 'B']
+  const chromFromRoot = [...chrom.slice(rootIdx), ...chrom.slice(0, rootIdx)];
+
+  // ex: [0,2,4,5,7,9,11] --> ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+  const scaleNotes = scales[scale].map(idx => chromFromRoot[idx]);
+  const selectedFrets = fretMap.filter(fret => scaleNotes.includes(fret.split('-')[4]));
+
+  return selectedFrets;
+}
