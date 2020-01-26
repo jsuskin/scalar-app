@@ -6,10 +6,12 @@
 
   background: $offwhite-1;
   transition: all .666s ease;
+
   header, footer {
     transition: all .666s ease;
     background: -webkit-linear-gradient(152deg, rgba(lighten($primary, 6.66%), 0.9) 0%, rgba(lighten($primary, 3.33%), 0.95) 20%, $primary 100%);
   }
+
   footer span {
     opacity: .333;
     background: transparent;
@@ -23,38 +25,47 @@
       }
     }
   }
+
   .app-title {
     transition: all .5s ease;
     background: -webkit-linear-gradient(right, darken($secondary, 6.66%) 0%, $secondary 20%, lighten($primary, 66.6%) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
   .selection-container select {
     transition: all .5s ease;
     // background: $grey-1;
     background: -webkit-linear-gradient(145deg, $grey-1 0%, lighten($grey-1, 25%) 100%);
   }
+
   .fretboard-btn {
     transition: all .5s ease;
     // background: $grey-1;
     background: -webkit-radial-gradient(lighten($grey-1, 25%), $grey-1);
   }
+
   .selection-container select, .selection-container label, .fretboard-btn, .note-display {
     color: $primary;
   }
+
   .strings {
     border: 2px solid $grey-2;
   }
+
   .fret-numbers, .compatible-scales-container, .tune-all-strings {
     color: $grey-2;
   }
+
   .dot, .string-fragment {
     background: $primary;
   }
+
   .dot.root-note {
     background: $secondary;
     border: 2px solid $primary;
   }
+
   .note.root-note {
     @if (lightness($secondary) < 50) {
       color: lighten($primary, 100%);
@@ -62,23 +73,42 @@
       color: $primary;
     }
   }
+  
   .highlighted-fret {
     background: darken($secondary, 6.66%);
   }
+  
   .fret-container:not(:last-child) {
     border-right: 1px solid $primary;
   }
+  
   .fret-container:not(:last-child), .note, .note-display-root {
     color: $offwhite-2;
   }
+  
   .note-display-root {
     background: $grey-2;
   }
+  
   .compatible-scales li:hover, .tune-all-strings:hover {
     color: $secondary;
   }
+  
   .tuning {
     // background: $grey-1;
+    .tune-all-strings {
+      border-left: 7.5px solid transparent;
+      border-right: 7.5px solid transparent;
+
+      &.tune-up {
+        border-bottom: 15px solid $secondary;
+      }
+
+      &.tune-down {
+        border-top: 15px solid $secondary;
+      }
+    }
+    
     select {
       background: transparent;
     }

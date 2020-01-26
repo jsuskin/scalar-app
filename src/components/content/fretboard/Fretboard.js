@@ -1,6 +1,6 @@
 import React from 'react';
 import Tuning from './Tuning';
-import Strings from './Strings';
+import Strings from './Strings/Strings';
 import FretNumbers from './FretNumbers';
 
 function Fretboard(props) {

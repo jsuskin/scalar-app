@@ -3,35 +3,8 @@
     position: relative;
     left: -2.5em;
 
-    .tune-all-strings {
-      position: absolute;
-      padding: .234em;
-      // padding: 0.49890377588306944vh 0.28444444444444444vw;
-      font-size: 1.5em;
-      font-weight: 600;
-      -webkit-user-select: none; /* Chrome/Safari */
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* IE10+ */
-      -o-user-select: none;
-      user-select: none;
-      cursor: pointer;
-      // border: 1px dotted orange;
-
-      &.tune-up {
-        top: -.95em;
-        // top: -1.9vh;
-        transform: rotate(-90deg);
-      }
-
-      &.tune-down {
-        bottom: -9.1em;
-        // bottom: -25.9vh;
-        transform: rotate(90deg);
-      }
-    }
-
     .tuning {
-      // border: 1px solid red;
+      // border: 1px solid green;
       padding-left: 10px;
       position: absolute;
       border-radius: .333em;
@@ -40,6 +13,26 @@
       // font-size: .85em;
       font-size: 1.6565164433617539vh;
       font-weight: 600;
+
+      .tune-all-strings {
+        // border: 1px dotted red;
+        position: absolute;
+        text-align: center;
+        font-size: 1.25em;
+        cursor: pointer;
+        margin-left: -.222em;
+        width: 0;
+        height: 0;
+        &.tune-up {
+          // top: -1em;
+          top: -3vh;
+        }
+
+        &.tune-down {
+          // bottom: -1em;
+          bottom: -3vh;
+        }
+      }
     }
   }
 

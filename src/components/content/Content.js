@@ -1,6 +1,6 @@
 import React from 'react';
 import CompatibleScales from './CompatibleScales/CompatibleScales';
-import ScaleSelect from './ScaleSelect';
+import ScaleOptions from './ScaleOptions/ScaleOptions';
 import DisplayArea from './DisplayArea';
 
 function Content(props) {
@@ -20,7 +20,7 @@ function Content(props) {
         showScale={props.showScale}
         selectCompatibleScale={props.selectCompatibleScale}
       />
-      <ScaleSelect
+      <ScaleOptions
         selectedScale={props.selectedScale}
         selectedKey={props.selectedKey}
         handleChange={props.handleChange}

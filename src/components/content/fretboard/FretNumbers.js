@@ -10,6 +10,7 @@ function FretNumbers(props) {
               key={num}
               className="fret-number"
               onClick={() => props.handleSelectFretNumber(num)}
+              title={`Highlight notes at fret ${num}`}
             >
               <span>{num}</span>
             </li>

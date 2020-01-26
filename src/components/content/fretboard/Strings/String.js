@@ -4,7 +4,18 @@ import Fret from './Fret';
 class String extends Component {
 
   render() {
-    const { sIdx, stringName, openNote } = this.props;
+    const {
+      sIdx,
+      stringName,
+      openNote,
+      selectedFrets,
+      selectedKey,
+      showScale,
+      highlightFretNumbers,
+      handleFretClick,
+      handleAddFrets,
+      addToFretMap
+    } = this.props;
 
     return (
       <li className="string-container">
@@ -12,21 +23,21 @@ class String extends Component {
           {
             Array.from(Array(25)).map((f, fIdx) => {
               const fretName = `${stringName}-fret-${fIdx}`;
-              // console.log(fretName)
+
               return (
                 <Fret
-                  highlightFret={this.props.highlightFretNumbers.includes(fIdx)}
+                  highlightFret={highlightFretNumbers.includes(fIdx)}
                   key={`${sIdx}-${fIdx}`}
                   openNote={openNote}
                   fretName={fretName}
                   fIdx={fIdx}
                   sIdx={sIdx}
-                  selected={this.props.selectedFrets.includes(fretName)}
-                  showScale={this.props.showScale}
-                  selectedKey={this.props.selectedKey}
-                  handleFretClick={this.props.handleFretClick}
-                  handleAddFrets={this.props.handleAddFrets}
-                  addToFretMap={this.props.addToFretMap}
+                  selected={selectedFrets.includes(fretName)}
+                  showScale={showScale}
+                  selectedKey={selectedKey}
+                  handleFretClick={handleFretClick}
+                  handleAddFrets={handleAddFrets}
+                  addToFretMap={addToFretMap}
                 />
               );
             })

@@ -4,13 +4,13 @@ import { notes } from '../../../data'
 function Tuning(props) {
   return (
     <div className="tuning-container">
-      <span
-        className="tune-all-strings tune-up"
-        onClick={() => props.handleTuneStrings(1)}
-      >
-        >
-      </span>
       <ul className="tuning">
+        <li
+          className="tune-all-strings tune-up"
+          onClick={() => props.handleTuneStrings(1)}
+          title="Tune all strings up one half-step"
+        >
+        </li>
         {
           props.tuning.map((string, idx) => {
             return (
@@ -28,13 +28,13 @@ function Tuning(props) {
             )
           })
         }
-      </ul>
-      <span
-        className="tune-all-strings tune-down"
-        onClick={() => props.handleTuneStrings(-1)}
-      >
+        <li
+          className="tune-all-strings tune-down"
+          onClick={() => props.handleTuneStrings(-1)}
+          title="Tune all strings down one half-step"
         >
-      </span>
+        </li>
+      </ul>
     </div>
   );
 }

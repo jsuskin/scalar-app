@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { notes } from '../../../data';
+import { notes } from '../../../../data';
 
 class Fret extends Component {
   state = {

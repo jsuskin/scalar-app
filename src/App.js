@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Header from './components/Header/Header';
 import Content from './components/Content/Content';
 import Footer from './components/Footer/Footer';
-import { notes, scales } from './data';
+import { notes } from './data';
 import { updateState, updateFretMap, selectedNoteIndices, newTuningSelectedFrets, newScaleSelectedFrets } from './utils/HelperMethods';
 import './scss/main.scss';
 
@@ -31,7 +31,7 @@ class App extends Component {
   handleChangeColorScheme = color => this.setState({ colorScheme: color })
 
   handleFretClick = (fret, noteIdx) => {
-    // format to store in this.state.selectedFrets
+    // format to store in this.state.selectedFrets; ex: fret = 'string-5-fret-0'
     const fretName = `${fret}-${notes[noteIdx]}`;
     // check if fret is already included in this.state.selectedFrets
     const addFret = !this.state.selectedFrets.includes(fretName);
@@ -42,6 +42,7 @@ class App extends Component {
     // note does exist in this.state.selectedNoteIndices
     const increaseNoteCount = this.state.selectedNoteIndices.map(arr => arr[0] === noteIdx ? [arr[0], arr[1] + 1] : arr);
 
+    // remove 1 note when clicking on fretboard dot
     const removeNote = noteIdx => {
       const selectedNoteIndices = this.state.selectedNoteIndices.slice();
 
