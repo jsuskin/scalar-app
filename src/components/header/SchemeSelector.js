@@ -17,12 +17,14 @@ function SchemeSelector(props) {
           themes
             .filter(color => color !== props.colorScheme)
             .map(color => {
-              return <li
-                key={color}
-                className={`color-selection ${color}`}
-                onClick={() => props.handleChangeColorScheme(color)}
-              >
-              </li>
+              return (
+                <li
+                  key={color}
+                  className={`color-selection ${color}`}
+                  onClick={() => props.handleChangeColorScheme(color)}
+                >
+                </li>
+              )
             })
         }
       </ul>

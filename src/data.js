@@ -54,3 +54,10 @@ export const scales = {
   "Double Harmonic": [0,1,4,5,7,8,11],
   "Mohammedan": [0,2,3,5,7,8,11]
 }
+
+export const tunings = {
+  "E Standard": [7, 2, 10, 5, 0, 7],
+  "Drop D": [7, 2, 10, 5, 0, 5],
+  "Open C": [10, 7, 3, 10, 7, 3],
+  "Custom": []
+}

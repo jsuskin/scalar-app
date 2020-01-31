@@ -1,7 +1,7 @@
 import React from 'react';
 import Fretboard from './Fretboard/Fretboard';
 import ScaleDisplay from './BottomPanel/ScaleDisplay';
-import FretboardButtons from './BottomPanel/FretboardButtons';
+import BottomPanelButtons from './BottomPanel/BottomPanelButtons';
 
 function DisplayArea(props) {
     const {
@@ -47,7 +47,7 @@ function DisplayArea(props) {
             handleRemoveNote={handleRemoveNote}
             toggleFlatsSharps={toggleFlatsSharps}
           />
-          <FretboardButtons
+          <BottomPanelButtons
             selectedNotes={selectedNotes}
             handleFillOctaves={handleFillOctaves}
             handleClearFretboard={handleClearFretboard}

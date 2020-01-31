@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Header from './components/Header/Header';
 import Content from './components/Content/Content';
 import Footer from './components/Footer/Footer';
-import { notes } from './data';
+import { notes, tunings } from './data';
 import { updateState, updateFretMap, selectedNoteIndices, newTuningSelectedFrets, newScaleSelectedFrets } from './utils/HelperMethods';
 import './scss/main.scss';
 
@@ -16,6 +16,7 @@ class App extends Component {
     selectedFrets: [],
     highlightFretNumbers: [],
     selectedNoteIndices: [],
+    selectedTuning: 'E Standard',
     tuning: ['E', 'B', 'G', 'D', 'A', 'E'],
     selectedScale: 'None',
     selectedKey: 'A',
@@ -84,6 +85,7 @@ class App extends Component {
     const scale = showScale ? e.target.value : this.state.selectedScale;
     const root = showScale ? this.state.selectedKey : e.target.value;
     const selectedFrets = newScaleSelectedFrets(scale, root, this.state.fretMap);
+    console.log(tunings[e.target.value])
 
     this.setState(updateState(
       this.state,
@@ -91,6 +93,7 @@ class App extends Component {
         [e.target.name]: e.target.value,
         selectedFrets: noScaleValue ? this.state.selectedFrets : selectedFrets,
         selectedNoteIndices: noScaleValue ? this.state.selectedNoteIndices : selectedNoteIndices(scale, root, selectedFrets),
+        tuning: e.target.name === 'selectedTuning' && e.target.value !== 'Custom' ? tunings[e.target.value].map(idx => notes[idx]) : this.state.tuning,
         showScale: e.target.name === 'selectedScale' ? !noScaleValue : this.state.selectedScale !== 'None'
       }
     ));
@@ -199,7 +202,8 @@ class App extends Component {
       {
         tuning: newTuning,
         fretMap: fretMap,
-        selectedFrets: selectedFrets
+        selectedFrets: selectedFrets,
+        selectedTuning: 'Custom'
       }
     ));
   }
@@ -220,6 +224,7 @@ class App extends Component {
       {
         tuning: newTuning,
         selectedFrets: selectedFrets,
+        selectedTuning: 'Custom',
         fretMap: updateFretMap(newTuning, this.state.fretMap)
       }
     ));

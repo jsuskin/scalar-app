@@ -1,0 +1,30 @@
+.bottom-panel-buttons {
+  // border: 1px solid purple;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 1.7em 0;
+  
+  .bottom-panel-btn {
+    padding: .666em;
+    margin-top: .666em;
+    border: none;
+    outline: none;
+    border-radius: .333em;
+    font-size: 1.1em;
+    font-weight: 300;
+    letter-spacing: .256em;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.11s, opacity 0.11s linear;
+    white-space: nowrap;
+    text-align: center;
+    width: 49%;
+    cursor: pointer;
+
+    &.show-bottom-panel-buttons {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}

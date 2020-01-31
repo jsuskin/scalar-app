@@ -5,6 +5,8 @@
 @import "./layouts/header";
 @import "./layouts/footer";
 @import "./components/fretboard";
+@import "./components/compatible_scales";
+@import "./components/bottom_panel_buttons";
 
 * {
   box-sizing: border-box;
@@ -62,7 +64,8 @@ body {
   padding: 1.2em 0;
 
   div {
-    width: 49%;
+    // width: 49%;
+    width: 32%;
   }
 
   select {
@@ -170,97 +173,6 @@ body {
       font-size: .666em;
       top: 50%;
     }
-  }
-}
-
-
-.fretboard-buttons {
-  // border: 1px solid purple;
-  display: flex;
-  justify-content: space-between;
-  padding: 1.7em 0;
-}
-
-.fretboard-btn {
-  padding: .666em;
-  border: none;
-  outline: none;
-  border-radius: .333em;
-  font-size: 1.1em;
-  font-weight: 300;
-  letter-spacing: .256em;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0.11s, opacity 0.11s linear;
-  white-space: nowrap;
-  text-align: center;
-  width: 49%;
-  cursor: pointer;
-
-  &.show-fretboard-buttons {
-    visibility: visible;
-    opacity: 1;
-  }
-}
-
-
-
-.compatible-scales-container {
-  // border: 1px dotted purple;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility .1s, opacity 1.3s ease-in;
-  width: 89vw;
-  height: 12.18vh;
-  // height: 18vh;
-  // margin-top: -5.6vh;
-  margin-bottom: 5.6vh;
-
-  .compatible-scales-heading {
-    font-size: 1.1em;
-    // font-size: 1.2222222222222223vw;
-    letter-spacing: .256em;
-    // letter-spacing: 0.28444444444444444vw;
-    padding: 0 .5em;
-    // padding: 0 0.5555555555555556vw;
-  }
-
-  .compatible-scales-count {
-    font-size: .9em;
-    // font-size: 1vw;
-  }
-
-  .compatible-scales {
-    overflow: scroll;
-    width: 100%;
-    // line-height: 1.5;
-    line-height: 100%;
-    // border: 1px dotted orange;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-auto-columns: 1fr;
-    grid-auto-flow: column;
-    padding: 1.5em 1em;
-    // padding: 1.6666666666666667vw 1.1111111111111112vw;
-
-    li {
-      font-size: .666em;
-      // font-size: 0.7400000000000001vw;
-      letter-spacing: .256em;
-      // letter-spacing: 0.28444444444444444vw;
-      // min-width: 320px;
-      min-width: 22.22222222222222vw;
-      text-align: center;
-      // padding: .666em 0;
-      padding: 1.297929354445798vh 0;
-      cursor: pointer;
-    }
-  }
-
-  &.show-matching-scales {
-    visibility: visible;
-    opacity: 1;
   }
 }
 

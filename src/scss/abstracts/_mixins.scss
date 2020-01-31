@@ -39,13 +39,13 @@
     background: -webkit-linear-gradient(145deg, $grey-1 0%, lighten($grey-1, 25%) 100%);
   }
 
-  .fretboard-btn {
+  .bottom-panel-btn {
     transition: all .5s ease;
     // background: $grey-1;
     background: -webkit-radial-gradient(lighten($grey-1, 25%), $grey-1);
   }
 
-  .selection-container select, .selection-container label, .fretboard-btn, .note-display {
+  .selection-container select, .selection-container label, .bottom-panel-btn, .note-display {
     color: $primary;
   }
 
@@ -73,27 +73,27 @@
       color: $primary;
     }
   }
-  
+
   .highlighted-fret {
     background: darken($secondary, 6.66%);
   }
-  
+
   .fret-container:not(:last-child) {
     border-right: 1px solid $primary;
   }
-  
+
   .fret-container:not(:last-child), .note, .note-display-root {
     color: $offwhite-2;
   }
-  
+
   .note-display-root {
     background: $grey-2;
   }
-  
+
   .compatible-scales li:hover, .tune-all-strings:hover {
     color: $secondary;
   }
-  
+
   .tuning {
     // background: $grey-1;
     .tune-all-strings {
@@ -108,7 +108,7 @@
         border-top: 15px solid $secondary;
       }
     }
-    
+
     select {
       background: transparent;
     }

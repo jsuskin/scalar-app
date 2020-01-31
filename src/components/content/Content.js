@@ -23,12 +23,15 @@ function Content(props) {
       <ScaleOptions
         selectedScale={props.selectedScale}
         selectedKey={props.selectedKey}
+        selectedTuning={props.selectedTuning}
         handleChange={props.handleChange}
+        tuning={props.tuning}
       />
       <DisplayArea
         showScale={props.showScale}
         selectedNotes={selectedNotes}
         selectedKey={props.selectedKey}
+        selectedTuning={props.selectedTuning}
         tuning={props.tuning}
         selectedFrets={selectedFrets}
         highlightFretNumbers={props.highlightFretNumbers}
