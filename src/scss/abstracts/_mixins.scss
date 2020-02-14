@@ -33,6 +33,16 @@
     -webkit-text-fill-color: transparent;
   }
 
+  .user-access-options {
+    color: $secondary;
+    span {
+      border-top: 2px solid rgba(0,0,0,0);
+      &:hover {
+        border-top: 2px solid rgba($secondary, 0.8);
+      }
+    }
+  }
+
   .selection-container select {
     transition: all .5s ease;
     // background: $grey-1;

@@ -22,7 +22,8 @@ class App extends Component {
     selectedKey: 'A',
     showScale: false,
     prevState: {},
-    showPrevState: false
+    showPrevState: false,
+    loggedIn: false
   }
 
   componentDidMount() {
@@ -85,7 +86,6 @@ class App extends Component {
     const scale = showScale ? e.target.value : this.state.selectedScale;
     const root = showScale ? this.state.selectedKey : e.target.value;
     const selectedFrets = newScaleSelectedFrets(scale, root, this.state.fretMap);
-    console.log(tunings[e.target.value])
 
     this.setState(updateState(
       this.state,
@@ -160,6 +160,7 @@ class App extends Component {
     }
   }
 
+  // fret names added to global frets array as frets are rendered
   addToFretMap = fretName => fretMap.push(fretName)
 
   toggleFlatsSharps = () => {
@@ -241,11 +242,18 @@ class App extends Component {
     ));
   }
 
+  handleLogIn = () => this.setState({ loggedIn: true })
+
+  handleLogOut = () => this.setState({ loggedIn: false })
+
   render() {
     return (
       <div className={`app ${this.state.colorScheme}-theme`}>
         <Header
           colorScheme={this.state.colorScheme}
+          loggedIn={this.state.loggedIn}
+          handleLogIn={this.handleLogIn}
+          handleLogOut={this.handleLogOut}
           handleChangeColorScheme={this.handleChangeColorScheme}
         />
         <Content
