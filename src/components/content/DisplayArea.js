@@ -1,5 +1,5 @@
 import React from 'react';
-import Fretboard from './Fretboard/Fretboard';
+import Fretboard from './fretboard/Fretboard';
 import ScaleDisplay from './BottomPanel/ScaleDisplay';
 import BottomPanelButtons from './BottomPanel/BottomPanelButtons';
 

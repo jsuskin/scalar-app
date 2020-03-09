@@ -1,91 +1,71 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CompatibleScale from './CompatibleScale';
-import { notes, scales } from '../../../data'
+import CompatibleScalesHeading from './CompatibleScalesHeading';
+import MoreScalesBtn from './MoreScalesBtn';
+import { scales } from '../../../data';
+import { compatibleScales } from "../../../utils/HelperMethods";
 
-function CompatibleScales(props) {
-  const {
-    showScale,
-    selectedScale,
-    selectedKey,
-    selectedNoteIndices,
-    selectCompatibleScale
-  } = props;
+function CompatibleScales({
+  showScale,
+  selectedScale,
+  selectedKey,
+  selectedNoteIndices,
+  selectCompatibleScale
+}) {
+  const [ displayMultiplier, setDisplayMultiplier ] = useState(0);
 
   const scaleNames = Object.keys(scales);
-
-  const removeErroneous = scaleName => {
-    return ['Chromatic', 'None']
-      .every(selection => scaleName !== selection)
-  }
 
   // [[0,2,4,...], [1,3,5,...], [2,4,6,...],...]
   const scaleFromCurrentRoot = (scale, step) => {
     return scale.map(idx => {
       return idx + step < 12 ? idx + step : idx + step - 12;
-    })
+    });
     //.sort((a, b) => a - b)
-  }
+  };
+  
+  const compatibleScalesList = compatibleScales(
+    scaleNames,
+    scaleFromCurrentRoot,
+    showScale,
+    selectedScale,
+    selectedKey,
+    selectedNoteIndices
+  );
 
-  const compatibleScales =
-    scaleNames.filter(removeErroneous)
-    .map(scaleName => {  // ex: 'Major Scale'
-      const scaleFromA = scales[scaleName];  // ex: [0,2,4,5,7,9,11]
-
-      // [0,1,2,3,4,5,6,7,8,9,10,11]
-      const everyKey = Array.from(Array(12)).map((x, step) => {
-        return {
-          name: scaleName,
-          root: notes[step],
-          arr: scaleFromCurrentRoot(scaleFromA, step)
-        }
-      });
-
-      const matchingKeys = everyKey.filter(obj => {
-        const scaleFromRoot = scaleFromCurrentRoot(
-          showScale ? scales[selectedScale] : selectedNoteIndices.map(arr => arr[0]),
-          Object.values(notes).indexOf(selectedKey)
-        );
-
-        const rootScaleHasCurrentScale = obj.arr.every(idx => scaleFromRoot.includes(idx));
-
-        const currentScaleHasRootScale = scaleFromRoot.every(idx => obj.arr.includes(idx));
-
-        return rootScaleHasCurrentScale || currentScaleHasRootScale;
-      });
-
-      return matchingKeys;
-
+  const scaleComponents = compatibleScalesList.map(arr =>
+    arr.map(obj => {
+      return (
+        <CompatibleScale
+          key={`${obj.root} ${obj.name}`}
+          {...obj}
+          selectCompatibleScale={selectCompatibleScale}
+          scaleFromCurrentRoot={scaleFromCurrentRoot}
+        />
+      );
     })
-      .filter(arr => arr.length)
-      .map(arr => {
-        return arr
-          .filter(obj => {
-            return !(obj.name === selectedScale && obj.root === selectedKey)
-          });
-      });
+  );
 
+  const showMoreScales = val => setDisplayMultiplier(displayMultiplier + val)
+  
   return (
-    <div className={`compatible-scales-container${showScale || selectedNoteIndices.length > 1 ? ' show-matching-scales' : ''}`}>
-      <span className="compatible-scales-heading">
-        <span className="compatible-scales-count">
-          {compatibleScales.flat().length}
-        </span>
-        &nbsp;
-        {showScale ? `Scales Compatible With ${selectedKey} ${selectedScale}` : 'Compatible Scales'}
-      </span>
+    <div
+      className={`compatible-scales-container${
+        showScale || selectedNoteIndices.length > 1
+          ? " show-matching-scales"
+          : ""
+      }`}
+    >
+      <CompatibleScalesHeading
+        compatibleScales={compatibleScalesList}
+        showScale={showScale}
+        selectedKey={selectedKey}
+        selectedScale={selectedScale}
+      />
       <ul className="compatible-scales">
-        {
-          compatibleScales.map(arr => arr.map(obj => {
-            return (
-              <CompatibleScale
-                key={`${obj.root} ${obj.name}`}
-                {...obj}
-                selectCompatibleScale={selectCompatibleScale}
-                scaleFromCurrentRoot={scaleFromCurrentRoot}
-              />
-            );
-          }))
-        }
+        <MoreScalesBtn dir="prev" showMoreScales={showMoreScales} disabled={displayMultiplier < 1} />
+        {scaleComponents.flat().slice(12 * displayMultiplier, 12 * (displayMultiplier + 1))}
+        <MoreScalesBtn dir="next" showMoreScales={showMoreScales} disabled={scaleComponents.flat().length <= (displayMultiplier + 1) * 12} />
       </ul>
     </div>
   );

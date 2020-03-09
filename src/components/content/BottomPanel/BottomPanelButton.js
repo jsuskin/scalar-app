@@ -1,12 +1,12 @@
 import React from 'react';
 
-function BottomPanelButton(props) {
+function BottomPanelButton({classNames, handleClick, text}) {
   return (
     <button
-      className={props.classNames}
-      onClick={props.handleClick}
+      className={classNames}
+      onClick={handleClick}
     >
-      {props.text}
+      {text}
     </button>
   );
 }

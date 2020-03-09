@@ -33,6 +33,17 @@
     -webkit-text-fill-color: transparent;
   }
 
+  .user-options-area {
+    color: $secondary;
+  }
+
+  .sign-in-modal {
+    background: rgba(lighten($primary, 3.33%), 0.9);
+    form #log-in-btn {
+      background: $secondary;
+    }
+  }
+
   .selection-container select {
     transition: all .5s ease;
     // background: $grey-1;
@@ -92,6 +103,16 @@
 
   .compatible-scales li:hover, .tune-all-strings:hover {
     color: $secondary;
+  }
+
+  .show-more-scales {
+    background: -webkit-linear-gradient(145deg, $grey-1 0%, lighten($grey-1, 25%) 100%);
+    &:hover {
+      color: $secondary;
+    }
+    &.disabled {
+      opacity: .333;
+    }
   }
 
   .tuning {

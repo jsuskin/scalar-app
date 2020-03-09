@@ -1,4 +1,4 @@
-import { notes, scales } from '../data';
+import { notes, scales } from "../data";
 
 let iteration = 0;
 
@@ -6,14 +6,14 @@ function limitIterationsOfPrevStateInPrevState(previousState) {
   // separate prevState from the rest of state
   const obj = () => {
     const { prevState, ...rest } = previousState;
-    return { prevState: prevState, rest: rest }
-  }
+    return { prevState: prevState, rest: rest };
+  };
 
   // omit 2nd level prevState key
-  const { prevState: omitted, ...rest} = obj().prevState;
+  const { prevState: omitted, ...rest } = obj().prevState;
 
   // combine them
-  return { ...obj().rest, prevState: rest }
+  return { ...obj().rest, prevState: rest };
 }
 
 export function updateState(state, obj, showPrevState = false) {
@@ -26,12 +26,13 @@ export function updateState(state, obj, showPrevState = false) {
       prevState: prevState,
       iteration: iteration,
       showPrevState: showPrevState
-    }
-  }
+    };
+  };
 }
 
 export function updateFretMap(tuning, frets) {
-  const openIdx = openNote => +Object.keys(notes).find(key => notes[key] === openNote);
+  const openIdx = openNote =>
+    +Object.keys(notes).find(key => notes[key] === openNote);
 
   const noteIdx = (fIdx, openNote) => {
     // 0 if fIdx + openIdx < 12, 1 if > 12 & < 24, etc.
@@ -46,43 +47,58 @@ export function updateFretMap(tuning, frets) {
     // --> 27 - 24
     // --> 3
     return openIdx(openNote) + fIdx - 12 * multiplier;
-  }
+  };
 
   return frets.map(fret => {
-    let [ str, strNum, fr, frNum, note ] = fret.split("-");
+    let [str, strNum, fr, frNum, note] = fret.split("-");
 
-    note = notes[noteIdx(+frNum,notes[openIdx(tuning[strNum - 1])])];
+    note = notes[noteIdx(+frNum, notes[openIdx(tuning[strNum - 1])])];
 
     return `${str}-${strNum}-${fr}-${frNum}-${note}`;
   });
 }
 
-export const selectedNoteIndices = (scale, root, selectedFrets) => scales[scale].map(i => {
-  const rootIdx = Object.values(notes).indexOf(root);
-  const idx = i + rootIdx < 12 ? i + rootIdx : i + rootIdx - 12;
+export const selectedNoteIndices = (scale, root, selectedFrets) =>
+  scales[scale].map(i => {
+    const rootIdx = Object.values(notes).indexOf(root);
+    const idx = i + rootIdx < 12 ? i + rootIdx : i + rootIdx - 12;
 
-  return [
-    idx,
-    selectedFrets.map(fret => fret.split('-')[4]).filter(note => notes[idx] === note).length
-  ];
-});
+    return [
+      idx,
+      selectedFrets
+        .map(fret => fret.split("-")[4])
+        .filter(note => notes[idx] === note).length
+    ];
+  });
 
-export const newTuningSelectedFrets = (selectedFrets, diff) => {
-  return selectedFrets.map(fret => {
-    let [ str, stringNum, fr, fretNum, note ] = fret.split('-');
-    const newFret = +fretNum - diff;
+export const newTuningSelectedFrets = (selectedFrets, diff, changedIdx) => {
+  const changedStringNum = changedIdx + 1;
 
-    fretNum = newFret < 0 ? 24 + newFret : newFret > 24 ? newFret - 24 : newFret === 0 || newFret === 24 ? [0, 24] : newFret;
+  return selectedFrets
+    .map(fret => {
+      let [str, stringNum, fr, fretNum, note] = fret.split("-");  // string-6-fret-8-C
+      const newFret = +fretNum - diff;  // 10
 
-    const fretString = num => `${str}-${stringNum}-${fr}-${num}-${note}`;
+      fretNum =
+        newFret < 0
+          ? 24 + newFret
+          : newFret > 24
+          ? newFret - 24
+          : newFret === 0 || newFret === 24
+          ? [0, 24]
+          : newFret;
 
-    return Array.isArray(fretNum) ? fretNum.map(num => fretString(num)) : fretString(fretNum);
-  })
-  .flat()
-  .filter((item, idx, self) => self.indexOf(item) === idx);}
+      const fretString = num => changedStringNum === +stringNum ? `${str}-${stringNum}-${fr}-${num}-${note}` : fret;
+
+      return Array.isArray(fretNum)
+        ? fretNum.map(num => fretString(num))
+        : fretString(fretNum);
+    })
+    .flat()
+    .filter((item, idx, self) => self.indexOf(item) === idx);
+};
 
 export const newScaleSelectedFrets = (scale, root, fretMap) => {
-
   // ['A', 'A#', 'B', 'C', ..., 'G', 'G#']
   const chrom = Object.values(notes);
   const rootIdx = chrom.indexOf(root);
@@ -92,7 +108,64 @@ export const newScaleSelectedFrets = (scale, root, fretMap) => {
 
   // ex: [0,2,4,5,7,9,11] --> ['C', 'D', 'E', 'F', 'G', 'A', 'B']
   const scaleNotes = scales[scale].map(idx => chromFromRoot[idx]);
-  const selectedFrets = fretMap.filter(fret => scaleNotes.includes(fret.split('-')[4]));
+  const selectedFrets = fretMap.filter(fret =>
+    scaleNotes.includes(fret.split("-")[4])
+  );
 
   return selectedFrets;
-}
+};
+
+const removeErroneous = scaleName => {
+  return ["Chromatic", "None"].every(selection => scaleName !== selection);
+};
+
+export const compatibleScales = (
+  scaleNames,
+  scaleFromCurrentRoot,
+  showScale,
+  selectedScale,
+  selectedKey,
+  selectedNoteIndices
+) =>
+  scaleNames
+    .filter(removeErroneous)
+    .map(scaleName => {
+      // ex: 'Major Scale'
+      const scaleFromA = scales[scaleName]; // ex: [0, 2, 4, 5, 7, 9, 11]
+
+      // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+      const everyKey = Array.from(Array(12)).map((x, step) => {
+        return {
+          name: scaleName,
+          root: notes[step],
+          arr: scaleFromCurrentRoot(scaleFromA, step)
+        };
+      });
+
+      const matchingKeys = everyKey.filter(obj => {
+        const scaleFromRoot = scaleFromCurrentRoot(
+          showScale
+            ? scales[selectedScale]
+            : selectedNoteIndices.map(arr => arr[0]),
+          Object.values(notes).indexOf(selectedKey)
+        );
+
+        const rootScaleHasCurrentScale = obj.arr.every(idx =>
+          scaleFromRoot.includes(idx)
+        );
+
+        const currentScaleHasRootScale = scaleFromRoot.every(idx =>
+          obj.arr.includes(idx)
+        );
+
+        return rootScaleHasCurrentScale || currentScaleHasRootScale;
+      });
+
+      return matchingKeys;
+    })
+    .filter(arr => arr.length)
+    .map(arr => {
+      return arr.filter(obj => {
+        return !(obj.name === selectedScale && obj.root === selectedKey);
+      });
+    });

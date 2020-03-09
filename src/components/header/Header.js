@@ -1,14 +1,18 @@
 import React from 'react';
 import SchemeSelector from './SchemeSelector';
+import UserOptionsArea from './UserOptionsArea';
 
-function Header(props) {
+function Header({ colorScheme, handleChangeColorScheme, handleFormChange, handleSignIn }) {
   return (
     <header>
       <span className="app-title">Scalar</span>
-      <SchemeSelector
-        colorScheme={props.colorScheme}
-        handleChangeColorScheme={props.handleChangeColorScheme}
-      />
+      <div className="header-options">
+        <UserOptionsArea handleFormChange={handleFormChange} handleSignIn={handleSignIn} />
+        <SchemeSelector
+          colorScheme={colorScheme}
+          handleChangeColorScheme={handleChangeColorScheme}
+        />
+      </div>
     </header>
   );
 }

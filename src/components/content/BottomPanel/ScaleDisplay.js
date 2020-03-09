@@ -11,10 +11,10 @@ class ScaleDisplay extends Component {
         <div className="scale-display">
           <ul>
             {
-              scale.sort().map(note => {
+              scale.sort().map((note, idx) => {
                 return (
                   <li
-                    key={note}
+                    key={idx}
                     className="note-display"
                     onClick={() => this.props.handleRemoveNote(note)}
                   >
