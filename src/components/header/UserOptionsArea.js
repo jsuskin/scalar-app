@@ -1,16 +1,26 @@
-import React, { useState } from "react";
-import SignInModal from "./SignInModal";
+import React, { useState, useEffect } from "react";
+import SignedIn from "./SignedIn";
+import SignedOut from "./SignedOut";
 
-export default function UserOptionsArea({ handleFormChange, handleSignIn }) {
+export default function UserOptionsArea({ loggedIn, handleFormChange, handleSignIn, handleSignOut }) {
   const [showModal, setShowModal] = useState(false);
+  const closeModal = () => setShowModal(false);
+  const openModal = () => setShowModal(true);
+
   return (
     <div className={`user-options-area`}>
-      <span onClick={() => setShowModal(!showModal)}>Sign In</span>
-      <SignInModal
-        showModal={showModal}
-        handleFormChange={handleFormChange}
-        handleSignIn={handleSignIn}
-      />
+      {!loggedIn ? (
+        <SignedOut
+          setShowModal={setShowModal}
+          showModal={showModal}
+          handleFormChange={handleFormChange}
+          handleSignIn={handleSignIn}
+          closeModal={closeModal}
+          openModal={openModal}
+        />
+      ) : (
+        <SignedIn handleSignOut={handleSignOut} />
+      )}
     </div>
   );
 }

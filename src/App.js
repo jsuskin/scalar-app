@@ -20,6 +20,7 @@ class App extends Component {
       username: '',
       password: ''
     },
+    loggedIn: !!localStorage.authToken,
     iteration: 0,
     colorScheme: "brown",
     fretMap: [],
@@ -323,6 +324,7 @@ class App extends Component {
     this.setState({
       ...this.state,
       user: {
+        ...this.state.user,
         [e.target.name]: e.target.value
       }
     });
@@ -333,25 +335,48 @@ class App extends Component {
     fetch("http://localhost:4000/api/user/login", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Accept: "application/json"
       },
-      body: JSON.stringify({
-        "username": this.state.user.username,
-        "password": this.state.user.password
-      })
+      body: JSON.stringify(this.state.user)
     })
-      .then(res => console.log(res));
-    this.setState({ showModal: !this.state.showModal });
+      .then(function(response) {
+        if (response.ok) {
+          const token = response.headers.get("auth-token");
+          localStorage.setItem("authToken", token);
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .catch(function(error) {
+        console.log(
+          "There has been a problem with your fetch operation: " + error
+        );
+      });
+      setTimeout(() => {
+        this.setState({
+          ...this.state,
+          loggedIn: !!localStorage.authToken,
+          showModal: !this.state.showModal
+        });
+      }, 500)
+    
   };
+
+  handleSignOut = () => {
+    localStorage.removeItem("authToken");
+    this.setState({ loggedIn: false });
+  }
 
   render() {
     return (
       <div className={`app ${this.state.colorScheme}-theme`}>
         <Header
+          loggedIn={this.state.loggedIn}
           colorScheme={this.state.colorScheme}
           handleChangeColorScheme={this.handleChangeColorScheme}
           handleFormChange={this.handleFormChange}
           handleSignIn={this.handleSignIn}
+          handleSignOut={this.handleSignOut}
         />
         <Content {...this.state} {...this} />
         <Footer {...this.state} handleIteration={this.handleIteration} />
