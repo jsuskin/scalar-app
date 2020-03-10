@@ -8,7 +8,8 @@ import {
   updateFretMap,
   selectedNoteIndices,
   newTuningSelectedFrets,
-  newScaleSelectedFrets
+  newScaleSelectedFrets,
+  loginPost
 } from "./utils/HelperMethods";
 import "./scss/main.scss";
 
@@ -332,35 +333,15 @@ class App extends Component {
 
   handleSignIn = e => {
     e.preventDefault();
-    fetch("http://localhost:4000/api/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(this.state.user)
-    })
-      .then(function(response) {
-        if (response.ok) {
-          const token = response.headers.get("auth-token");
-          localStorage.setItem("authToken", token);
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .catch(function(error) {
-        console.log(
-          "There has been a problem with your fetch operation: " + error
-        );
+    loginPost(this.state.user);
+    setTimeout(() => {
+      this.setState({
+        ...this.state,
+        loggedIn: !!localStorage.authToken,
+        showModal: !this.state.showModal
       });
-      setTimeout(() => {
-        this.setState({
-          ...this.state,
-          loggedIn: !!localStorage.authToken,
-          showModal: !this.state.showModal
-        });
-      }, 500)
-    
-  };
+    }, 500);
+  }
 
   handleSignOut = () => {
     localStorage.removeItem("authToken");

@@ -169,3 +169,28 @@ export const compatibleScales = (
         return !(obj.name === selectedScale && obj.root === selectedKey);
       });
     });
+
+// FETCHES
+
+export const loginPost = (userData) => {
+  fetch("http://localhost:4000/api/user/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify(userData)
+  })
+    .then(function(response) {
+      if (response.ok) {
+        const token = response.headers.get("auth-token");
+        localStorage.setItem("authToken", token);
+      }
+      throw new Error("Network response was not ok.");
+    })
+    .catch(function(error) {
+      console.log(
+        "There has been a problem with your fetch operation: " + error
+      );
+    });
+}

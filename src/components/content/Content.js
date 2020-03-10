@@ -28,6 +28,7 @@ function Content(props) {
         tuning={props.tuning}
       />
       <DisplayArea
+        loggedIn={props.loggedIn}
         showScale={props.showScale}
         selectedNotes={selectedNotes}
         selectedKey={props.selectedKey}
