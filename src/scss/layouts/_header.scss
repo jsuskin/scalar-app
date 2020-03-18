@@ -3,14 +3,13 @@ header {
   justify-content: space-between;
   align-items: center;
   height: 8vh;
-  // z-index: 30;
+  z-index: 30;
 
   .app-title {
     padding-left: 5.56vw;
     font-size: 5.85vh;
     font-weight: 300;
     letter-spacing: .256em;
-    // cursor: default;
     cursor: pointer;
   }
 
@@ -48,9 +47,7 @@ header {
         }
       }
 
-      .favorites-modal {
-        right: 26.33em;
-
+      * {
         ul {
           text-align: center;
 
@@ -59,6 +56,14 @@ header {
             cursor: pointer;
           }
         }
+      }
+
+      .favorites-modal {
+        right: 26.33em;
+      }
+
+      .groups-modal {
+        right: 18.42em;
       }
 
       .sign-in-modal {
@@ -87,19 +92,6 @@ header {
         }
       }      
     }
-  }
-
-  .user-access-options {
-    display: flex;
-    justify-content: flex-end;
-    &.logged-in {
-      justify-content: space-between;
-    }
-    width: 25%;
-    letter-spacing: .256em;
-    font-size: 1.2vw;
-    margin-left: 32vw;
-    cursor: pointer;
   }
 
   .scheme-selection-container {

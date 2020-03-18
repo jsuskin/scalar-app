@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Favorites from "./Favorites";
+import Groups from "./Groups";
 
 export default function SignedIn({ username, handleSignOut }) {
   const [ showFavs, setShowFavs ] = useState(false);
+  const [ showGroups, setShowGroups ] = useState(false);
 
   return (
     <>
@@ -10,9 +12,12 @@ export default function SignedIn({ username, handleSignOut }) {
         Favorites
       </span>
       <Favorites show={showFavs} closeModal={() => setShowFavs(false)} />
-      <span onClick={() => console.log("groups")} id='groups'>
+
+      <span onClick={() => setShowGroups(!showGroups)} id='groups'>
         Groups
       </span>
+      <Groups show={showGroups} closeModal={() => setShowGroups(false)} />
+
       <span
         onClick={handleSignOut}
         id='sign-out-btn'
