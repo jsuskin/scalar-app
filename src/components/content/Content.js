@@ -31,6 +31,7 @@ function Content(props) {
         loggedIn={props.loggedIn}
         showScale={props.showScale}
         selectedNotes={selectedNotes}
+        selectedScale={props.selectedScale}
         selectedKey={props.selectedKey}
         selectedTuning={props.selectedTuning}
         tuning={props.tuning}

@@ -11,6 +11,7 @@ function DisplayArea({
   selectedFrets,
   handleFretClick,
   selectedNotes,
+  selectedScale,
   selectedKey,
   handleRemoveNote,
   handleClearFretboard,
@@ -49,6 +50,7 @@ function DisplayArea({
         <BottomPanelButtons
           loggedIn={loggedIn}
           selectedNotes={selectedNotes}
+          selectedScale={selectedScale}
           handleFillOctaves={handleFillOctaves}
           handleClearFretboard={handleClearFretboard}
         />

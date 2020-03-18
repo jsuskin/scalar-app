@@ -2,14 +2,18 @@ import React, { Component } from "react";
 import Header from "./components/header/Header";
 import Content from "./components/content/Content";
 import Footer from "./components/footer/Footer";
+import jwt from 'jwt-decode';
 import { notes, tunings } from "./data";
 import {
+  initialState,
   updateState,
   updateFretMap,
+  removeNote,
   selectedNoteIndices,
   newTuningSelectedFrets,
   newScaleSelectedFrets,
-  loginPost
+  loginPost,
+  registerPost
 } from "./utils/HelperMethods";
 import "./scss/main.scss";
 
@@ -23,25 +27,40 @@ class App extends Component {
     },
     loggedIn: !!localStorage.authToken,
     iteration: 0,
-    colorScheme: "brown",
-    fretMap: [],
-    selectedFrets: [],
-    highlightFretNumbers: [],
-    selectedNoteIndices: [],
-    selectedTuning: "E Standard",
-    tuning: ["E", "B", "G", "D", "A", "E"],
-    selectedScale: "None",
-    selectedKey: "A",
-    showScale: false,
     prevState: {},
-    showPrevState: false
+    showPrevState: false,
+    fretMap: [],
+    ...initialState
   };
 
   componentDidMount() {
     this.setState({ fretMap: [...fretMap] });
+
+    if(localStorage.authToken) {
+      const token = localStorage.authToken;
+      const userId = jwt(token);
+
+      fetch(`http://localhost:4000/api/user/${userId._id}`, {
+        headers: {
+          'auth-token': localStorage.authToken
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          this.setState({
+            ...this.state,
+            user: {
+              ...this.state.user,
+              username: data.username
+            }
+          });
+        });
+    }
   }
 
   handleChangeColorScheme = color => this.setState({ colorScheme: color });
+
+  handleTitleClick = () => this.setState(updateState(this.state, initialState));
 
   handleFretClick = (fret, noteIdx) => {
     // format to store in this.state.selectedFrets; ex: fret = 'string-5-fret-0'
@@ -59,26 +78,6 @@ class App extends Component {
       arr[0] === noteIdx ? [arr[0], arr[1] + 1] : arr
     );
 
-    // remove 1 note when clicking on fretboard dot
-    const removeNote = noteIdx => {
-      const selectedNoteIndices = this.state.selectedNoteIndices.slice();
-
-      // [noteIdx, frequency]
-      // i.e. [0, 4] --> there are currently 4 occurences of note A on fretboard
-      const index = selectedNoteIndices.find(x => x[0] === noteIdx);
-      const newIndex = [index[0], index[1] - 1];
-
-      return index[1] > 1
-        ? [
-            ...selectedNoteIndices.slice(0, selectedNoteIndices.indexOf(index)),
-            ...selectedNoteIndices.slice(
-              selectedNoteIndices.indexOf(index) + 1
-            ),
-            newIndex
-          ]
-        : selectedNoteIndices.filter(x => x[0] !== noteIdx);
-    };
-
     this.setState(
       updateState(this.state, {
         selectedFrets: addFret
@@ -88,7 +87,7 @@ class App extends Component {
           ? noteNotPresent
             ? addNoteIdx
             : increaseNoteCount
-          : removeNote(noteIdx),
+          : removeNote(noteIdx, this.state),
         selectedScale: "None",
         showScale: false
       })
@@ -338,14 +337,48 @@ class App extends Component {
       this.setState({
         ...this.state,
         loggedIn: !!localStorage.authToken,
-        showModal: !this.state.showModal
+        showModal: !this.state.showModal,
+        user: {
+          username: !!localStorage.authToken ? this.state.user.username : '',
+          password: ''
+        }
       });
     }, 500);
   }
 
+  handleRegister = (e, pw) => {
+    e.preventDefault();
+    if (this.state.user.password === pw) {
+      registerPost(this.state.user);
+      // loginPost(this.state.user)
+      setTimeout(() => {
+        this.setState({
+          ...this.state,
+          loggedIn: !!localStorage.authToken,
+          showModal: !this.state.showModal
+        });
+      }, 500);
+    } else {
+      this.setState({
+        ...this.state,
+        user: {
+          username: '',
+          password: ''
+        }
+      })
+    }
+  };
+
   handleSignOut = () => {
     localStorage.removeItem("authToken");
-    this.setState({ loggedIn: false });
+    this.setState({
+      ...this.state,
+      loggedIn: false,
+      user: {
+        username: '',
+        password: ''
+      }
+    });
   }
 
   render() {
@@ -353,10 +386,13 @@ class App extends Component {
       <div className={`app ${this.state.colorScheme}-theme`}>
         <Header
           loggedIn={this.state.loggedIn}
+          username={this.state.user.username}
           colorScheme={this.state.colorScheme}
+          handleTitleClick={this.handleTitleClick}
           handleChangeColorScheme={this.handleChangeColorScheme}
           handleFormChange={this.handleFormChange}
           handleSignIn={this.handleSignIn}
+          handleRegister={this.handleRegister}
           handleSignOut={this.handleSignOut}
         />
         <Content {...this.state} {...this} />

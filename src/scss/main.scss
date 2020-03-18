@@ -86,9 +86,9 @@ body {
   }
 }
 
-.display-area {
-  // border: 1px dotted orange;
-}
+// .display-area {
+//   // border: 1px dotted orange;
+// }
 
 .fret-numbers {
   display: table;
@@ -173,6 +173,39 @@ body {
       font-size: .666em;
       top: 50%;
     }
+  }
+}
+
+.scale-name-modal {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.5s, opacity 0.5s, transform 0.1s linear;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  height: 250px;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  z-index: 20;
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    * {
+      margin: .5em;
+      text-align: center;
+    }
+  }
+
+  &.show-modal {
+    visibility: visible;
+    opacity: 1;
   }
 }
 

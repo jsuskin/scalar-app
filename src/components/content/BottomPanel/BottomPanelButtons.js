@@ -5,6 +5,7 @@ import LoggedInBottomBtns from "./LoggedInBottomBtns";
 function BottomPanelButtons({
   loggedIn,
   selectedNotes,
+  selectedScale,
   handleFillOctaves,
   handleClearFretboard
 }) {
@@ -33,7 +34,12 @@ function BottomPanelButtons({
           text={text}
         />
       ))}
-      {loggedIn ? <LoggedInBottomBtns selectedNotes={selectedNotes} /> : null}
+      {loggedIn ? (
+        <LoggedInBottomBtns
+          selectedNotes={selectedNotes}
+          selectedScale={selectedScale}
+        />
+      ) : null}
     </div>
   );
 }

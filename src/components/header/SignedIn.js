@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useState } from "react";
+import Favorites from "./Favorites";
 
-export default function SignedIn({handleSignOut}) {
+export default function SignedIn({ username, handleSignOut }) {
+  const [ showFavs, setShowFavs ] = useState(false);
+
   return (
     <>
-      <span onClick={() => console.log('favorites')} id='favorites'>
+      <span onClick={() => setShowFavs(!showFavs)} id='favorites'>
         Favorites
       </span>
-      <span onClick={() => console.log('groups')} id='groups'>
+      <Favorites show={showFavs} closeModal={() => setShowFavs(false)} />
+      <span onClick={() => console.log("groups")} id='groups'>
         Groups
       </span>
-      <span onClick={handleSignOut} id='sign-out-btn'>
+      <span
+        onClick={handleSignOut}
+        id='sign-out-btn'
+        title={`Signed in as ${username}`}
+      >
         Sign Out
       </span>
     </>

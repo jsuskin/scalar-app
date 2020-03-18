@@ -1,21 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import SignInForm from './SignInForm';
+import RegisterForm from './RegisterForm';
 
 export default function SignInModal({
   showModal,
   handleSignIn,
+  handleRegister,
   handleFormChange,
   closeModal,
   openModal
 }) {
-  const handleModalClick = e => {
-    if (e.target.name && e.target.name.match(/username|password/)) return;
+  const [showRegister, setShowRegister] = useState(false);
+  const [pwConfirm, setPwConfirm] = useState('');
 
-    if (
-      (showModal && e.target.id !== "sign-in-form") ||
-      (!showModal && e.target.id !== "sign-in-btn")
-    ) {
+  const handleModalClick = e => {
+    if (!e.target.id.match(/username|password|register|login|sign\-in\-form|sign\-in\-btn/)) {
       closeModal();
-    } else openModal();
+      setShowRegister(false);
+    }
   };
 
   useEffect(() => {
@@ -23,25 +25,24 @@ export default function SignInModal({
   });
 
   return (
-    <div className={`sign-in-modal${showModal ? " show-modal" : ""}`}>
-      <form onSubmit={handleSignIn} id='sign-in-form'>
-        <input
-          type='text'
-          id='username'
-          name='username'
-          placeholder='username'
-          onChange={handleFormChange}
-        />
-        <input
-          type='password'
-          id='password'
-          name='password'
-          placeholder='password'
-          onChange={handleFormChange}
-        />
-        <input type='submit' id='log-in-btn' value='Log In' />
-        <span>Register an Account</span>
-      </form>
+    <div className={`modal sign-in-modal${showModal ? " show-modal" : ""}`}>
+      {
+        !showRegister ? (
+          <SignInForm
+            handleSignIn={handleSignIn}
+            handleFormChange={handleFormChange}
+            setShowRegister={setShowRegister}
+          />
+        ) : (
+          <RegisterForm
+            setShowRegister={setShowRegister}
+            handleRegister={handleRegister}
+            pwConfirm={pwConfirm}
+            setPwConfirm={setPwConfirm}
+            handleFormChange={handleFormChange}
+          />
+        )
+      }
     </div>
   );
 }

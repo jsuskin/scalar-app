@@ -2,6 +2,18 @@ import { notes, scales } from "../data";
 
 let iteration = 0;
 
+export const initialState = {
+  selectedFrets: [],
+  highlightFretNumbers: [],
+  selectedNoteIndices: [],
+  selectedTuning: "E Standard",
+  tuning: ["E", "B", "G", "D", "A", "E"],
+  selectedScale: "None",
+  selectedKey: "A",
+  showScale: false,
+  colorScheme: "brown"
+};
+
 function limitIterationsOfPrevStateInPrevState(previousState) {
   // separate prevState from the rest of state
   const obj = () => {
@@ -57,6 +69,24 @@ export function updateFretMap(tuning, frets) {
     return `${str}-${strNum}-${fr}-${frNum}-${note}`;
   });
 }
+
+export // remove 1 note when clicking on fretboard dot
+const removeNote = (noteIdx, state) => {
+  const selectedNoteIndices = state.selectedNoteIndices.slice();
+
+  // [noteIdx, frequency]
+  // i.e. [0, 4] --> there are currently 4 occurences of note A on fretboard
+  const index = selectedNoteIndices.find(x => x[0] === noteIdx);
+  const newIndex = [index[0], index[1] - 1];
+
+  return index[1] > 1
+    ? [
+        ...selectedNoteIndices.slice(0, selectedNoteIndices.indexOf(index)),
+        ...selectedNoteIndices.slice(selectedNoteIndices.indexOf(index) + 1),
+        newIndex
+      ]
+    : selectedNoteIndices.filter(x => x[0] !== noteIdx);
+};
 
 export const selectedNoteIndices = (scale, root, selectedFrets) =>
   scales[scale].map(i => {
@@ -185,6 +215,29 @@ export const loginPost = (userData) => {
       if (response.ok) {
         const token = response.headers.get("auth-token");
         localStorage.setItem("authToken", token);
+      }
+      throw new Error("Network response was not ok.");
+    })
+    .catch(function(error) {
+      console.log(
+        "There has been a problem with your fetch operation: " + error
+      );
+    });
+}
+
+export const registerPost = userData => {
+  fetch("http://localhost:4000/api/user/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify(userData)
+  })
+    .then(function(response) {
+      if (response.ok) {
+        console.log(response);
+        return response;
       }
       throw new Error("Network response was not ok.");
     })

@@ -10,7 +10,8 @@ header {
     font-size: 5.85vh;
     font-weight: 300;
     letter-spacing: .256em;
-    cursor: default;
+    // cursor: default;
+    cursor: pointer;
   }
 
   .header-options {
@@ -25,41 +26,61 @@ header {
         cursor: pointer;
         padding: 0 1em;
       }
-      .sign-in-modal {
+
+      .modal {
         position: absolute;
         visibility: hidden;
         opacity: 0;
         transition: visibility 0.5s, opacity 0.5s, transform 0.1s linear;
         transform: translate3d(0, -8vh, 0);
         width: 20vw;
-        height: 20vh;
+        height: auto;
         top: 8vh;
-        right: 10.42vw;
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
-        // z-index: -1;
         z-index: 20;
+        padding: 1em;
 
         &.show-modal {
           visibility: visible;
           opacity: 1;
           transform: translate3d(0, 0, 0);
         }
+      }
+
+      .favorites-modal {
+        right: 26.33em;
+
+        ul {
+          text-align: center;
+
+          li {
+            margin: .5em;
+            cursor: pointer;
+          }
+        }
+      }
+
+      .sign-in-modal {
+        right: 10.42vw;
+
         form {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 1em;
+
           input {
             margin: .5em;
             text-align: center;
           }
-          #log-in-btn {
+
+          #log-in-btn, #register-btn {
             border: none;
             border-radius: 2.5px;
             padding: .2em 1em;
             cursor: pointer;
           }
+          
           span {
             font-size: .6em;
           }

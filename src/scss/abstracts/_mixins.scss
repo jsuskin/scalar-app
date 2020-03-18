@@ -7,9 +7,13 @@
   background: $offwhite-1;
   transition: all .666s ease;
 
-  header, footer {
+  header, footer, .scale-name-modal {
     transition: all .666s ease;
     background: -webkit-linear-gradient(152deg, rgba(lighten($primary, 6.66%), 0.9) 0%, rgba(lighten($primary, 3.33%), 0.95) 20%, $primary 100%);
+  }
+
+  .scale-name-modal {
+    color: $secondary;
   }
 
   footer span {
@@ -37,9 +41,9 @@
     color: $secondary;
   }
 
-  .sign-in-modal {
+  .modal {
     background: rgba(lighten($primary, 3.33%), 0.9);
-    form #log-in-btn {
+    form #log-in-btn, #register-btn {
       background: $secondary;
     }
   }
