@@ -381,6 +381,10 @@ class App extends Component {
     });
   }
 
+  handleLogIn = () => this.setState({ loggedIn: true })
+
+  handleLogOut = () => this.setState({ loggedIn: false })
+
   render() {
     return (
       <div className={`app ${this.state.colorScheme}-theme`}>
@@ -389,6 +393,11 @@ class App extends Component {
           username={this.state.user.username}
           colorScheme={this.state.colorScheme}
           handleTitleClick={this.handleTitleClick}
+          loggedIn={this.state.loggedIn}
+          // vvv Incoming Changes vvv
+          handleLogIn={this.handleLogIn}
+          handleLogOut={this.handleLogOut}
+          // ^^^ Incoming Changes ^^^
           handleChangeColorScheme={this.handleChangeColorScheme}
           handleFormChange={this.handleFormChange}
           handleSignIn={this.handleSignIn}

@@ -33,6 +33,7 @@
   .app-title {
     transition: all .5s ease;
     background: -webkit-linear-gradient(right, darken($secondary, 6.66%) 0%, $secondary 20%, lighten($primary, 66.6%) 100%);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }

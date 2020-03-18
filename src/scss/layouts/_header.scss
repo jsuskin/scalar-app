@@ -89,6 +89,19 @@ header {
     }
   }
 
+  .user-access-options {
+    display: flex;
+    justify-content: flex-end;
+    &.logged-in {
+      justify-content: space-between;
+    }
+    width: 25%;
+    letter-spacing: .256em;
+    font-size: 1.2vw;
+    margin-left: 32vw;
+    cursor: pointer;
+  }
+
   .scheme-selection-container {
     margin-right: 5.56vw;
     border-radius: 10px;
