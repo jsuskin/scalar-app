@@ -176,7 +176,7 @@ body {
   }
 }
 
-.scale-name-modal {
+.scale-name-modal, .group-name-modal {
   position: absolute;
   visibility: hidden;
   opacity: 0;
@@ -196,10 +196,18 @@ body {
   form {
     display: flex;
     flex-direction: column;
+    width: 50%;
 
     * {
       margin: .5em;
       text-align: center;
+    }
+
+    .submit {
+      border: none;
+      border-radius: 2.5px;
+      padding: .2em 1em;
+      cursor: pointer;
     }
   }
 
@@ -207,6 +215,27 @@ body {
     visibility: visible;
     opacity: 1;
   }
+}
+
+.group-name-modal {
+  select {
+    text-align-last: center;
+    padding: .25em;
+    margin: .5em;
+  }
+  form {
+    span {
+      font-size: .7em;
+      cursor: pointer;
+    }
+  }
+}
+
+.save-modal-note {
+  font-size: .6em;
+  margin: 1.5em 0;
+  width: 66.6%;
+  text-align: center;
 }
 
 ul {

@@ -1,4 +1,5 @@
 import { notes, scales } from "../data";
+import axios from "axios";
 
 let iteration = 0;
 
@@ -247,3 +248,61 @@ export const registerPost = userData => {
       );
     });
 }
+
+export const postFav = (scaleName, selectedNotes) => {
+  fetch("http://localhost:4000/api/favorites", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "auth-token": localStorage.authToken
+    },
+    body: JSON.stringify({ name: scaleName, notes: [...selectedNotes] })
+  });
+};
+
+export const fetchGroups = async (func) => {
+  const result = await axios("http://localhost:4000/api/groups", {
+    headers: {
+      "auth-token": localStorage.authToken
+    }
+  });
+
+  func(result.data);
+};
+
+export const postScaleToNewGroup = (name, selectedNotes, selectedScale) => {
+  fetch("http://localhost:4000/api/groups", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "auth-token": localStorage.authToken
+    },
+    body: JSON.stringify({
+      name: name,
+      scale: {
+        name: selectedScale === 'None' ? 'test scale' : selectedScale,
+        notes: selectedNotes
+      }
+    })
+  });
+};
+
+export const patchScaleToGroup = (id, selectedNotes, scaleName) => {
+  fetch(`http://localhost:4000/api/groups/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "auth-token": localStorage.authToken
+    },
+    body: JSON.stringify({
+      scale: {
+        name: scaleName === 'None' ? 'test scale' : scaleName,
+        notes: selectedNotes
+      }
+    })
+  });
+};
+

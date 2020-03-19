@@ -337,7 +337,6 @@ class App extends Component {
       this.setState({
         ...this.state,
         loggedIn: !!localStorage.authToken,
-        showModal: !this.state.showModal,
         user: {
           username: !!localStorage.authToken ? this.state.user.username : '',
           password: ''
@@ -354,8 +353,7 @@ class App extends Component {
       setTimeout(() => {
         this.setState({
           ...this.state,
-          loggedIn: !!localStorage.authToken,
-          showModal: !this.state.showModal
+          loggedIn: !!localStorage.authToken
         });
       }, 500);
     } else {
@@ -381,9 +379,22 @@ class App extends Component {
     });
   }
 
-  handleLogIn = () => this.setState({ loggedIn: true })
+  handleSelectFavorite = (name, noteIndices) => {
+    const letterNotes = noteIndices.map(idx => notes[idx]);
+    const letterNote = fret => fret.split("-")[4];
+    const selectedFrets = this.state.fretMap.filter(fret => letterNotes.includes(letterNote(fret)));
+    const allNotes = selectedFrets.map(fret => letterNote(fret));
+    const selectedNoteIndices = letterNotes.map(note => [Object.values(notes).indexOf(note), allNotes.filter(n => note === n).length]);
 
-  handleLogOut = () => this.setState({ loggedIn: false })
+    this.setState(
+      updateState(this.state, {
+        selectedFrets: selectedFrets,
+        selectedNoteIndices: selectedNoteIndices,
+        selectedScale: 'None',
+        showScale: false
+      })
+    );
+  }
 
   render() {
     return (
@@ -393,16 +404,12 @@ class App extends Component {
           username={this.state.user.username}
           colorScheme={this.state.colorScheme}
           handleTitleClick={this.handleTitleClick}
-          loggedIn={this.state.loggedIn}
-          // vvv Incoming Changes vvv
-          handleLogIn={this.handleLogIn}
-          handleLogOut={this.handleLogOut}
-          // ^^^ Incoming Changes ^^^
           handleChangeColorScheme={this.handleChangeColorScheme}
           handleFormChange={this.handleFormChange}
           handleSignIn={this.handleSignIn}
           handleRegister={this.handleRegister}
           handleSignOut={this.handleSignOut}
+          handleSelectFavorite={this.handleSelectFavorite}
         />
         <Content {...this.state} {...this} />
         <Footer {...this.state} handleIteration={this.handleIteration} />

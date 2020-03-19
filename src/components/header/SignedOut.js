@@ -1,7 +1,14 @@
-import React from 'react';
+import React from "react";
 import SignInModal from "./SignInModal";
 
-export default function SignedOut({showModal, setShowModal, handleFormChange, handleSignIn, handleRegister, closeModal, openModal}) {
+export default function SignedOut({
+  showModal,
+  setShowModal,
+  handleFormChange,
+  handleSignIn,
+  handleRegister,
+  closeModal
+}) {
   return (
     <>
       <span onClick={() => setShowModal(!showModal)} id='sign-in-btn'>
@@ -14,7 +21,6 @@ export default function SignedOut({showModal, setShowModal, handleFormChange, ha
         handleSignIn={handleSignIn}
         handleRegister={handleRegister}
         closeModal={closeModal}
-        openModal={openModal}
       />
     </>
   );

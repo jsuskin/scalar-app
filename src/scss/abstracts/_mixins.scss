@@ -7,12 +7,12 @@
   background: $offwhite-1;
   transition: all .666s ease;
 
-  header, footer, .scale-name-modal {
+  header, footer, .scale-name-modal, .group-name-modal {
     transition: all .666s ease;
     background: -webkit-linear-gradient(152deg, rgba(lighten($primary, 6.66%), 0.9) 0%, rgba(lighten($primary, 3.33%), 0.95) 20%, $primary 100%);
   }
 
-  .scale-name-modal {
+  .scale-name-modal, .group-name-modal {
     color: $secondary;
   }
 
@@ -30,6 +30,16 @@
     }
   }
 
+  .user-option {
+    box-sizing: border-box;
+    border-top: 5px solid transparent;
+    transition: border-top .3s ease-out;
+
+    &:hover {
+      border-top: 5px solid $secondary;
+    }
+  }
+
   .app-title {
     transition: all .5s ease;
     background: -webkit-linear-gradient(right, darken($secondary, 6.66%) 0%, $secondary 20%, lighten($primary, 66.6%) 100%);
@@ -38,15 +48,44 @@
     -webkit-text-fill-color: transparent;
   }
 
+  #active-group {
+    background: linear-gradient(270deg, lighten($primary, 66.6%), darken($secondary, 6.66%));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 400% 400%;
+
+    -webkit-animation: TextGlow 20s ease infinite;
+    -moz-animation: TextGlow 20s ease infinite;
+    animation: TextGlow 20s ease infinite;
+
+    @-webkit-keyframes TextGlow {
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
+    }
+    @-moz-keyframes TextGlow {
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
+    }
+    @keyframes TextGlow {
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
+    }
+  }
+
   .user-options-area {
     color: $secondary;
   }
 
   .modal {
     background: rgba(lighten($primary, 3.33%), 0.9);
-    form #log-in-btn, #register-btn {
-      background: $secondary;
-    }
+  }
+
+  #log-in-btn, #register-btn, .submit {
+    background: $secondary;
   }
 
   .selection-container select {

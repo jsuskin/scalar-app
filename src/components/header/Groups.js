@@ -1,44 +1,38 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { fetchGroups } from '../../utils/HelperMethods';
 
-export default function Groups({ show, closeModal }) {
+export default function Groups({ showGroups, setShowGroups, closeModal, handleSelectGroup }) {
   const [groups, setGroups] = useState({ groups: [] });
 
-  const handleModalClick = e => {
-    const parent = document.querySelectorAll(".groups-modal")[0];
-    if (parent && !parent.contains(e.target) && e.target.id !== "groups")
-      closeModal();
-  };
-
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios("http://localhost:4000/api/groups", {
-        headers: {
-          "auth-token": localStorage.authToken
-        }
-      });
-
-      setGroups(result.data);
+    const handleModalClick = e => {
+      const parent = document.querySelectorAll(".groups-modal")[0];
+      if (parent && !parent.contains(e.target) && e.target.id !== "groups")
+        closeModal();
     };
 
+    fetchGroups(setGroups);
     window.addEventListener("click", handleModalClick);
-
-    fetchData();
-  }, []);
+  }, [closeModal]);
 
   return (
     <div
       id='groups-modal'
-      className={`modal groups-modal${show ? " show-modal" : ""}`}
+      className={`modal groups-modal${showGroups ? " show-modal" : ""}`}
     >
       <ul>
-        {groups.length
-          ? groups.map(group => (
-              <li key={group._id} onClick={() => console.log("groupafsfsf")}>
-                {group.name}
-              </li>
-            ))
-          : null}
+        {
+          groups.length
+            ? groups.map(group => (
+                <li key={group._id} onClick={() => {
+                  handleSelectGroup(group.name);
+                  setShowGroups(false);
+                }}>
+                  {group.name}
+                </li>
+              ))
+            : null
+        }
       </ul>
     </div>
   );

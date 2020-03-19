@@ -2,25 +2,37 @@ import React, { useState } from "react";
 import Favorites from "./Favorites";
 import Groups from "./Groups";
 
-export default function SignedIn({ username, handleSignOut }) {
-  const [ showFavs, setShowFavs ] = useState(false);
-  const [ showGroups, setShowGroups ] = useState(false);
+export default function SignedIn({
+  username,
+  handleSelectGroup,
+  handleSignOut,
+  handleSelectFavorite
+}) {
+  const [showFavs, setShowFavs] = useState(false);
+  const [showGroups, setShowGroups] = useState(false);
 
   return (
     <>
-      <span onClick={() => setShowFavs(!showFavs)} id='favorites'>
+      <span onClick={() => setShowFavs(!showFavs)} id='favorites'
+      className="user-option">
         Favorites
       </span>
-      <Favorites show={showFavs} closeModal={() => setShowFavs(false)} />
+      <Favorites
+        show={showFavs}
+        closeModal={() => setShowFavs(false)}
+        handleSelectFavorite={handleSelectFavorite}
+      />
 
-      <span onClick={() => setShowGroups(!showGroups)} id='groups'>
+      <span onClick={() => setShowGroups(!showGroups)} id='groups'
+      className="user-option">
         Groups
       </span>
-      <Groups show={showGroups} closeModal={() => setShowGroups(false)} />
+      <Groups showGroups={showGroups} setShowGroups={setShowGroups} handleSelectGroup={handleSelectGroup} closeModal={() => setShowGroups(false)} />
 
       <span
         onClick={handleSignOut}
         id='sign-out-btn'
+        className="user-option"
         title={`Signed in as ${username}`}
       >
         Sign Out

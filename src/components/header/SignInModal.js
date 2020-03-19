@@ -7,20 +7,23 @@ export default function SignInModal({
   handleSignIn,
   handleRegister,
   handleFormChange,
-  closeModal,
-  openModal
+  closeModal
 }) {
   const [showRegister, setShowRegister] = useState(false);
   const [pwConfirm, setPwConfirm] = useState('');
 
-  const handleModalClick = e => {
-    if (!e.target.id.match(/username|password|register|login|sign\-in\-form|sign\-in\-btn/)) {
-      closeModal();
-      setShowRegister(false);
-    }
-  };
-
   useEffect(() => {
+    const handleModalClick = e => {
+      if (
+        !e.target.id.match(
+          /username|password|register|login|sign-in-form|sign-in-btn/
+        )
+      ) {
+        closeModal();
+        setShowRegister(false);
+      }
+    };
+
     window.addEventListener("click", handleModalClick);
   });
 

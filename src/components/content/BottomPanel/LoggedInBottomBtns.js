@@ -1,24 +1,17 @@
-import React, { useState } from "react";
-import NameModal from './NameModal';
+import React, { useState, useEffect } from "react";
+import SaveFavModal from "./SaveFavModal";
+import SaveGroupModal from "./SaveGroupModal";
 import BottomPanelButton from "./BottomPanelButton";
+import { postFav, postScaleToNewGroup, patchScaleToGroup } from "../../../utils/HelperMethods";
 
 export default function LoggedInBottomBtns({ selectedNotes, selectedScale }) {
   const [showNameModal, setShowNameModal] = useState(false);
-  const [name, setName] = useState('');
-  const closeNameModal = () => setShowNameModal(false);
+  const [showGroupNameModal, setShowGroupNameModal] = useState(false);
+  const [name, setName] = useState("");
 
-  const postFav = scaleName => {
-    fetch('http://localhost:4000/api/favorites', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        'auth-token': localStorage.authToken
-      },
-      body: JSON.stringify({ name: scaleName, notes: [...selectedNotes] })
-    })
-  }
-  
+  const closeNameModal = () => setShowNameModal(false);
+  const closeGroupModal = () => setShowGroupNameModal(false);
+
   const buttonData = [
     {
       className: "save-scale",
@@ -27,16 +20,26 @@ export default function LoggedInBottomBtns({ selectedNotes, selectedScale }) {
     },
     {
       className: "add-to-group",
-      clickHandler: () => console.log("clicky"),
+      clickHandler: () => setShowGroupNameModal(!showGroupNameModal),
       text: "Add To Group"
     }
   ];
 
   const saveScale = e => {
     e.preventDefault();
-    postFav(name);
+    postFav(name, selectedNotes);
     setShowNameModal(false);
   };
+
+  const saveGroup = (existing, data) => {
+    existing ? patchScaleToGroup(data, selectedNotes, selectedScale) : postScaleToNewGroup(data, selectedNotes, selectedScale);
+    setShowGroupNameModal(false);
+  };
+
+  // useEffect(() => {
+  //   // selectedScale === 'None' ? setName('') : setName(selectedScale)
+  //   console.log(selectedScale)
+  // }, [])
 
   return (
     <>
@@ -50,7 +53,20 @@ export default function LoggedInBottomBtns({ selectedNotes, selectedScale }) {
           text={text}
         />
       ))}
-      <NameModal saveScale={saveScale} setName={setName} showModal={showNameModal} closeModal={closeNameModal} />
+      <SaveFavModal
+        saveScale={saveScale}
+        name={name}
+        setName={setName}
+        showModal={showNameModal}
+        closeModal={closeNameModal}
+      />
+      <SaveGroupModal
+        saveGroup={saveGroup}
+        name={name}
+        setName={setName}
+        showModal={showGroupNameModal}
+        closeModal={closeGroupModal}
+      />
     </>
   );
 }

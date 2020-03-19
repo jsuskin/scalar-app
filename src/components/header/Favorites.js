@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export default function Favorites({ show, closeModal }) {
+export default function Favorites({ show, closeModal, handleSelectFavorite }) {
   const [ favs, setFavs ] = useState({ favs: [] });
-
-  const handleModalClick = e => {
-    const parent = document.querySelectorAll('.favorites-modal')[0];
-    if(parent && !parent.contains(e.target) && e.target.id !== 'favorites') closeModal();
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,10 +15,16 @@ export default function Favorites({ show, closeModal }) {
       setFavs(result.data);
     }
 
+    const handleModalClick = e => {
+      const parent = document.querySelectorAll(".favorites-modal")[0];
+      if (e.target.className === 'favorite' || (parent && !parent.contains(e.target) && e.target.id !== "favorites"))
+        closeModal();
+    };
+
     window.addEventListener("click", handleModalClick);
 
     fetchData();
-  }, [])
+  }, [closeModal])
 
   return (
     <div
@@ -33,7 +34,7 @@ export default function Favorites({ show, closeModal }) {
       <ul>
         {favs.length
           ? favs.map(fav => (
-              <li key={fav._id} onClick={() => console.log("favafsfsf")}>
+              <li key={fav._id} className="favorite" onClick={() => handleSelectFavorite(fav.name, fav.notes)}>
                 {fav.name}
               </li>
             ))

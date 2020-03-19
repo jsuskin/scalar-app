@@ -13,8 +13,22 @@ header {
     cursor: pointer;
   }
 
+  #active-group {
+    display: flex;
+    align-items: center;
+    height: 8vh;
+    font-size: 1.333em;
+    letter-spacing: .22em;
+    cursor: pointer;
+
+    &.disabled {
+      display: none;
+    }
+  }
+
   .header-options {
     display: flex;
+    
     .user-options-area {
       display: flex;
       align-items: center;
@@ -22,8 +36,11 @@ header {
       letter-spacing: .256em;
 
       span {
+        display: flex;
+        align-items: center;
         cursor: pointer;
         padding: 0 1em;
+        height: 8vh;
       }
 
       .modal {
@@ -95,45 +112,55 @@ header {
   }
 
   .scheme-selection-container {
+    display: flex;
+    align-items: center;
     margin-right: 5.56vw;
     border-radius: 10px;
 
     .scheme-selector {
       display: flex;
       justify-content: center;
+      align-items: center;
       padding: .25em;
 
-      .color-selection {
-        margin: 0 .25vw;
+      li {
+        display: flex;
+        align-items: center;
         width: 1.5em;
-        height: 1.5em;
-        border-radius: 2.5px;
-        cursor: pointer;
+        height: 8vh;
+        margin: 0 .25vw;
 
-        &.brown {
-          background: -webkit-linear-gradient(152deg, darken(rgba($light-1, 0.8), 20%), darken(rgba($light-1, 0.8), 15%));
-        }
+        .color-selection {
+          width: 1.5em;
+          height: 1.5em;
+          border-radius: 2.5px;
+          cursor: pointer;
 
-        &.blue {
-          background: -webkit-linear-gradient(152deg, darken(rgba($light-2, 0.8), 20%), darken(rgba($light-2, 0.8), 15%));
-        }
+          &.brown {
+            background: -webkit-linear-gradient(152deg, darken(rgba($light-1, 0.8), 20%), darken(rgba($light-1, 0.8), 15%));
+          }
 
-        &.pink {
-          background: -webkit-linear-gradient(152deg, darken(rgba($light-3, 0.8), 20%), darken(rgba($light-3, 0.8), 15%));
-        }
+          &.blue {
+            background: -webkit-linear-gradient(152deg, darken(rgba($light-2, 0.8), 20%), darken(rgba($light-2, 0.8), 15%));
+          }
 
-        &.green {
-          background: -webkit-linear-gradient(152deg, darken(rgba($light-4, 0.8), 20%), darken(rgba($light-4, 0.8), 15%));
-        }
+          &.pink {
+            background: -webkit-linear-gradient(152deg, darken(rgba($light-3, 0.8), 20%), darken(rgba($light-3, 0.8), 15%));
+          }
 
-        &.yellow {
-          background: -webkit-linear-gradient(152deg, darken(rgba($light-5, 0.8), 20%), darken(rgba($light-5, 0.8), 15%));
-        }
+          &.green {
+            background: -webkit-linear-gradient(152deg, darken(rgba($light-4, 0.8), 20%), darken(rgba($light-4, 0.8), 15%));
+          }
 
-        &.white {
-          background: -webkit-linear-gradient(152deg, darken(rgba($light-6, 0.8), 20%), darken(rgba($light-6, 0.8), 15%));
+          &.yellow {
+            background: -webkit-linear-gradient(152deg, darken(rgba($light-5, 0.8), 20%), darken(rgba($light-5, 0.8), 15%));
+          }
+
+          &.white {
+            background: -webkit-linear-gradient(152deg, darken(rgba($light-6, 0.8), 20%), darken(rgba($light-6, 0.8), 15%));
+          }
         }
-      }
+      } 
     }
   }
 }
