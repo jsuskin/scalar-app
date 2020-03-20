@@ -1,19 +1,36 @@
 import React, { useEffect } from "react";
-import ActiveGroupModal from './ActiveGroupModal';
+import ActiveGroupModal from "./ActiveGroupModal";
 
-export default function ActiveGroup({ groupName, showGroup, setShowGroup, showGroupModal, setShowGroupModal }) {
+export default function ActiveGroup({
+  groupName,
+  groupId,
+  showGroup,
+  setShowGroup,
+  showGroupModal,
+  setShowGroupModal,
+  handleSelectFavorite
+}) {
   useEffect(() => {
     const handleModalClick = e => {
       const parent = document.querySelectorAll(".group-modal")[0];
-      if (showGroupModal && parent && !parent.contains(e.target) && e.target.id !== "active-group-header-display") {
+      const scaleSelects = document.querySelectorAll(".group-scale-selections")[0];
+      if (
+        scaleSelects.contains(e.target) ||
+        (showGroupModal &&
+          parent &&
+          !parent.contains(e.target) &&
+          e.target.id !== "active-group-header-display")
+      ) {
         setShowGroupModal(false);
         setShowGroup(true);
       }
-      if(e.target.className === "group-select") {
+
+      if (e.target.className === "group-select") {
         setShowGroupModal(true);
         setShowGroup(false);
       }
     };
+    
     window.addEventListener("click", handleModalClick);
   });
 
@@ -29,7 +46,12 @@ export default function ActiveGroup({ groupName, showGroup, setShowGroup, showGr
       >
         {groupName}
       </span>
-      <ActiveGroupModal showGroupModal={showGroupModal} groupName={groupName} />
+      <ActiveGroupModal
+        showGroupModal={showGroupModal}
+        groupName={groupName}
+        groupId={groupId}
+        handleSelectFavorite={handleSelectFavorite}
+      />
     </>
   );
 }

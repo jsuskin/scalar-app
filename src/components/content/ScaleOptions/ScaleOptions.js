@@ -21,7 +21,7 @@ function ScaleOptions(props) {
     } else {
       setFavs([]);
     }
-  }, [localStorage.authToken]);
+  }, []);
 
   return (
     <div className="selection-container">

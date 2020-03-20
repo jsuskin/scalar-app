@@ -271,6 +271,16 @@ export const fetchGroups = async (func) => {
   func(result.data);
 };
 
+export const fetchGroup = async (groupId, func) => {
+  const result = await axios(`http://localhost:4000/api/groups/${groupId}`, {
+    headers: {
+      "auth-token": localStorage.authToken
+    }
+  });
+
+  func(result.data.scales);
+};
+
 export const postScaleToNewGroup = (name, selectedNotes, selectedScale) => {
   fetch("http://localhost:4000/api/groups", {
     method: "POST",

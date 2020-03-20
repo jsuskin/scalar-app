@@ -16,11 +16,13 @@ function Header({
   handleSignOut
 }) {
   const [ groupName, setGroupName ] = useState('');
+  const [ groupId, setGroupId ] = useState(null);
   const [ showGroup, setShowGroup ] = useState(false);
   const [ showGroupModal, setShowGroupModal ] = useState(false);
 
-  const handleSelectGroup = name => {
-    setGroupName(name);
+  const handleSelectGroup = group => {
+    setGroupName(group.name);
+    setGroupId(group._id)
     setShowGroup(false);
     setShowGroupModal(true);
   }
@@ -32,10 +34,12 @@ function Header({
       </span>
       <ActiveGroup
         groupName={groupName}
+        groupId={groupId}
         showGroup={showGroup}
         setShowGroup={setShowGroup}
         showGroupModal={showGroupModal}
         setShowGroupModal={setShowGroupModal}
+        handleSelectFavorite={handleSelectFavorite}
       />
       <div className='header-options'>
         <UserOptionsArea

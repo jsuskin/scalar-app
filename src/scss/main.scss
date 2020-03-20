@@ -239,6 +239,21 @@ body {
       margin: 1em 0;
       padding: 0;
     }
+
+    ul {
+      display: flex;
+      justify-content: space-between;
+      
+      li {        
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+
+        :first-child {
+          font-size: 1.7em;
+        }
+      }
+    }
   }
 }
 
