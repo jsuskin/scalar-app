@@ -5,24 +5,33 @@
   $grey-2: rgba($primary, 0.8);
 
   background: $offwhite-1;
-  transition: all .666s ease;
+  transition: all 0.666s ease;
 
-  header, footer, .scale-name-modal, .group-name-modal {
-    transition: all .666s ease;
-    background: -webkit-linear-gradient(152deg, rgba(lighten($primary, 6.66%), 0.9) 0%, rgba(lighten($primary, 3.33%), 0.95) 20%, $primary 100%);
+  header,
+  footer,
+  .scale-name-modal,
+  .group-name-modal {
+    transition: all 0.666s ease;
+    background: -webkit-linear-gradient(
+      152deg,
+      rgba(lighten($primary, 6.66%), 0.9) 0%,
+      rgba(lighten($primary, 3.33%), 0.95) 20%,
+      $primary 100%
+    );
   }
 
-  .scale-name-modal, .group-name-modal {
+  .scale-name-modal,
+  .group-name-modal {
     color: $secondary;
   }
 
   footer span {
-    opacity: .333;
+    opacity: 0.333;
     background: transparent;
     color: $secondary;
     &:not(.disabled) {
       opacity: 1;
-      transition: all .666s ease;
+      transition: all 0.666s ease;
       &:hover {
         background: $secondary;
         color: $primary;
@@ -33,7 +42,7 @@
   .user-option {
     box-sizing: border-box;
     border-top: 5px solid transparent;
-    transition: border-top .3s ease-out;
+    transition: border-top 0.3s ease-out;
 
     &:hover {
       border-top: 5px solid $secondary;
@@ -41,15 +50,24 @@
   }
 
   .app-title {
-    transition: all .5s ease;
-    background: -webkit-linear-gradient(right, darken($secondary, 6.66%) 0%, $secondary 20%, lighten($primary, 66.6%) 100%);
+    transition: all 0.5s ease;
+    background: -webkit-linear-gradient(
+      right,
+      darken($secondary, 6.66%) 0%,
+      $secondary 20%,
+      lighten($primary, 66.6%) 100%
+    );
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
-  #active-group {
-    background: linear-gradient(270deg, lighten($primary, 66.6%), darken($secondary, 6.66%));
+  .active-group {
+    background: linear-gradient(
+      270deg,
+      lighten($primary, 66.6%),
+      darken($secondary, 6.66%)
+    );
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -60,19 +78,44 @@
     animation: TextGlow 20s ease infinite;
 
     @-webkit-keyframes TextGlow {
-        0%{background-position:0% 50%}
-        50%{background-position:100% 50%}
-        100%{background-position:0% 50%}
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
     }
     @-moz-keyframes TextGlow {
-        0%{background-position:0% 50%}
-        50%{background-position:100% 50%}
-        100%{background-position:0% 50%}
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
     }
     @keyframes TextGlow {
-        0%{background-position:0% 50%}
-        50%{background-position:100% 50%}
-        100%{background-position:0% 50%}
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+  }
+
+  .group-selection {
+    color: $secondary;
+    hr {
+      border-top: 2px solid $secondary;
     }
   }
 
@@ -84,23 +127,32 @@
     background: rgba(lighten($primary, 3.33%), 0.9);
   }
 
-  #log-in-btn, #register-btn, .submit {
+  #log-in-btn,
+  #register-btn,
+  .submit {
     background: $secondary;
   }
 
   .selection-container select {
-    transition: all .5s ease;
+    transition: all 0.5s ease;
     // background: $grey-1;
-    background: -webkit-linear-gradient(145deg, $grey-1 0%, lighten($grey-1, 25%) 100%);
+    background: -webkit-linear-gradient(
+      145deg,
+      $grey-1 0%,
+      lighten($grey-1, 25%) 100%
+    );
   }
 
   .bottom-panel-btn {
-    transition: all .5s ease;
+    transition: all 0.5s ease;
     // background: $grey-1;
     background: -webkit-radial-gradient(lighten($grey-1, 25%), $grey-1);
   }
 
-  .selection-container select, .selection-container label, .bottom-panel-btn, .note-display {
+  .selection-container select,
+  .selection-container label,
+  .bottom-panel-btn,
+  .note-display {
     color: $primary;
   }
 
@@ -108,11 +160,14 @@
     border: 2px solid $grey-2;
   }
 
-  .fret-numbers, .compatible-scales-container, .tune-all-strings {
+  .fret-numbers,
+  .compatible-scales-container,
+  .tune-all-strings {
     color: $grey-2;
   }
 
-  .dot, .string-fragment {
+  .dot,
+  .string-fragment {
     background: $primary;
   }
 
@@ -137,7 +192,9 @@
     border-right: 1px solid $primary;
   }
 
-  .fret-container:not(:last-child), .note, .note-display-root {
+  .fret-container:not(:last-child),
+  .note,
+  .note-display-root {
     color: $offwhite-2;
   }
 
@@ -145,17 +202,22 @@
     background: $grey-2;
   }
 
-  .compatible-scales li:hover, .tune-all-strings:hover {
+  .compatible-scales li:hover,
+  .tune-all-strings:hover {
     color: $secondary;
   }
 
   .show-more-scales {
-    background: -webkit-linear-gradient(145deg, $grey-1 0%, lighten($grey-1, 25%) 100%);
+    background: -webkit-linear-gradient(
+      145deg,
+      $grey-1 0%,
+      lighten($grey-1, 25%) 100%
+    );
     &:hover {
       color: $secondary;
     }
     &.disabled {
-      opacity: .333;
+      opacity: 0.333;
     }
   }
 

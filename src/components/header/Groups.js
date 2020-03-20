@@ -24,7 +24,7 @@ export default function Groups({ showGroups, setShowGroups, closeModal, handleSe
         {
           groups.length
             ? groups.map(group => (
-                <li key={group._id} onClick={() => {
+                <li key={group._id} className="group-select" onClick={() => {
                   handleSelectGroup(group.name);
                   setShowGroups(false);
                 }}>

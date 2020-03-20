@@ -13,12 +13,15 @@ header {
     cursor: pointer;
   }
 
-  #active-group {
+  .active-group {
+    font-size: 1.333em;
+    letter-spacing: .22em;
+  }
+
+  #active-group-header-display {
     display: flex;
     align-items: center;
     height: 8vh;
-    font-size: 1.333em;
-    letter-spacing: .22em;
     cursor: pointer;
 
     &.disabled {

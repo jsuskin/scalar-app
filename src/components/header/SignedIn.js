@@ -13,8 +13,11 @@ export default function SignedIn({
 
   return (
     <>
-      <span onClick={() => setShowFavs(!showFavs)} id='favorites'
-      className="user-option">
+      <span
+        onClick={() => setShowFavs(!showFavs)}
+        id='favorites'
+        className='user-option'
+      >
         Favorites
       </span>
       <Favorites
@@ -23,16 +26,24 @@ export default function SignedIn({
         handleSelectFavorite={handleSelectFavorite}
       />
 
-      <span onClick={() => setShowGroups(!showGroups)} id='groups'
-      className="user-option">
+      <span
+        onClick={() => setShowGroups(!showGroups)}
+        id='groups'
+        className='user-option'
+      >
         Groups
       </span>
-      <Groups showGroups={showGroups} setShowGroups={setShowGroups} handleSelectGroup={handleSelectGroup} closeModal={() => setShowGroups(false)} />
+      <Groups
+        showGroups={showGroups}
+        setShowGroups={setShowGroups}
+        handleSelectGroup={handleSelectGroup}
+        closeModal={() => setShowGroups(false)}
+      />
 
       <span
         onClick={handleSignOut}
         id='sign-out-btn'
-        className="user-option"
+        className='user-option'
         title={`Signed in as ${username}`}
       >
         Sign Out

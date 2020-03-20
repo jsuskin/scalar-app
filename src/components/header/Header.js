@@ -15,12 +15,14 @@ function Header({
   handleRegister,
   handleSignOut
 }) {
-  const [ showGroup, setShowGroup ] = useState(false);
   const [ groupName, setGroupName ] = useState('');
+  const [ showGroup, setShowGroup ] = useState(false);
+  const [ showGroupModal, setShowGroupModal ] = useState(false);
 
   const handleSelectGroup = name => {
-    setShowGroup(true);
     setGroupName(name);
+    setShowGroup(false);
+    setShowGroupModal(true);
   }
   
   return (
@@ -28,7 +30,13 @@ function Header({
       <span className='app-title' onClick={handleTitleClick}>
         Scalar
       </span>
-      <ActiveGroup showGroup={showGroup} groupName={groupName} />
+      <ActiveGroup
+        groupName={groupName}
+        showGroup={showGroup}
+        setShowGroup={setShowGroup}
+        showGroupModal={showGroupModal}
+        setShowGroupModal={setShowGroupModal}
+      />
       <div className='header-options'>
         <UserOptionsArea
           loggedIn={loggedIn}

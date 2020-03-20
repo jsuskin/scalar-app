@@ -176,7 +176,7 @@ body {
   }
 }
 
-.scale-name-modal, .group-name-modal {
+.scale-name-modal, .group-name-modal, .group-modal {
   position: absolute;
   visibility: hidden;
   opacity: 0;
@@ -214,6 +214,31 @@ body {
   &.show-modal {
     visibility: visible;
     opacity: 1;
+  }
+}
+
+.group-modal {
+  width: 750px;
+  height: 500px;
+  border-radius: 10px;
+
+  .group-selection {
+    text-align: center;
+    width: 90%;
+    height: 80%;
+
+    .group-name {
+      font-weight: 600;
+      font-size: 1.6em;
+    }
+    
+    hr {
+      display: block;
+      height: 1px;
+      border: 0;
+      margin: 1em 0;
+      padding: 0;
+    }
   }
 }
 

@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from './Select';
 import { scales, notes, tunings } from '../../../data';
+import axios from 'axios';
 
 function ScaleOptions(props) {
+  const [favs, setFavs] = useState([]);
+
+  useEffect(() => {
+    if(localStorage.authToken) {
+      const fetchData = async () => {
+        const result = await axios("http://localhost:4000/api/favorites", {
+          headers: {
+            "auth-token": localStorage.authToken
+          }
+        });
+
+        setFavs(result.data);
+      };
+      fetchData();
+    } else {
+      setFavs([]);
+    }
+  }, [localStorage.authToken]);
+
   return (
     <div className="selection-container">
       <Select
@@ -19,6 +39,7 @@ function ScaleOptions(props) {
         selectionName="selectedScale"
         selectionValue={props.selectedScale}
         handleChange={props.handleChange}
+        // arr={[...Object.keys(scales), ...favs.map(fav => fav.name)]}
         arr={Object.keys(scales)}
         func={name => <option key={name} value={name}>{name}</option>}
       />
