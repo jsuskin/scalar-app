@@ -9,8 +9,6 @@ function Strings(props) {
           const stringName = `string-${sIdx + 1}`;
           const openNote = props.tuning[sIdx];
 
-          // console.log(openNote);
-
           return (
             <String
               key={sIdx}
