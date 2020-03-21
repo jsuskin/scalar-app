@@ -240,4 +240,8 @@
       background: transparent;
     }
   }
+
+  .modal-fretboard {
+    background: lighten(rgba($offwhite-1, 0.875), 20%);
+  }
 }

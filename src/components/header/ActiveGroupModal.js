@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import ModalFretboard from './ModalFretboard';
 import { fetchGroup } from "../../utils/HelperMethods";
 import { notes } from "../../data";
 
 export default function ActiveGroupModal({
+  fretMap,
   showGroupModal,
   groupName,
   groupId,
@@ -20,7 +22,7 @@ export default function ActiveGroupModal({
         <span className='group-name active-group'>{groupName}</span>
         <hr />
         <ul className='group-scale-selections'>
-          {scales.map(scale => {
+          {scales.map((scale, scaleIdx) => {
             const scaleNotes = scale.notes.map(idx => notes[idx]).join(", ");
             return (
               <li
@@ -28,8 +30,9 @@ export default function ActiveGroupModal({
                 className='group-scale-selection'
                 onClick={() => handleSelectFavorite(scale.name, scale.notes)}
               >
-                <span>{scale.name}</span>
-                <span>{scaleNotes}</span>
+                <span className={scaleIdx % 2 === 0 ? 'float-left' : 'float-right'}>{scale.name}</span>
+                <ModalFretboard fretMap={fretMap} scaleNotes={scale.notes} />
+                <span className={scaleIdx % 2 === 0 ? 'float-left' : 'float-right'}>{scaleNotes}</span>
               </li>
             );
           })}

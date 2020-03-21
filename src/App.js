@@ -403,6 +403,7 @@ class App extends Component {
           loggedIn={this.state.loggedIn}
           username={this.state.user.username}
           colorScheme={this.state.colorScheme}
+          fretMap={this.state.fretMap}
           handleTitleClick={this.handleTitleClick}
           handleChangeColorScheme={this.handleChangeColorScheme}
           handleFormChange={this.handleFormChange}
