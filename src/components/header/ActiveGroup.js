@@ -15,6 +15,9 @@ export default function ActiveGroup({
     const handleModalClick = e => {
       const parent = document.querySelectorAll(".group-modal")[0];
       const scaleSelects = document.querySelectorAll(".group-scale-selections")[0];
+
+      if(e.target.classList.contains('color-selection')) return;
+
       if (
         (scaleSelects && scaleSelects.contains(e.target)) ||
         (showGroupModal &&
@@ -33,6 +36,8 @@ export default function ActiveGroup({
     };
     
     window.addEventListener("click", handleModalClick);
+
+    return () => window.removeEventListener("click", handleModalClick);
   });
 
   return (

@@ -25,6 +25,8 @@ export default function SignInModal({
     };
 
     window.addEventListener("click", handleModalClick);
+
+    return () => window.removeEventListener("click", handleModalClick);
   });
 
   return (

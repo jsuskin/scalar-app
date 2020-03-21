@@ -10,7 +10,7 @@ export default function ActiveGroupModal({
   groupId,
   handleSelectFavorite
 }) {
-  const [scales, setScales] = useState([]);
+  const [ scales, setScales ] = useState([]);
 
   useEffect(() => {
     if (groupId) fetchGroup(groupId, setScales);
@@ -37,6 +37,10 @@ export default function ActiveGroupModal({
             );
           })}
         </ul>
+        <div className="group-nav">
+          <span>◄</span>
+          <span>►</span>
+        </div>
       </div>
     </div>
   );
