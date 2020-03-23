@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import FlatsSharpsToggle from "./FlatsSharpsToggle";
+import Note from "./Note";
 import { notes } from "../../../data";
 
 function ScaleDisplay({
@@ -17,33 +19,21 @@ function ScaleDisplay({
         <ul>
           {scale.sort().map((note, idx) => {
             return (
-              <li
+              <Note
                 key={idx}
-                className='note-display'
-                onClick={() => handleRemoveNote(note)}
-              >
-                <span
-                  className={`displayed-note${
-                    showScale && note === selectedKey
-                      ? " note-display-root"
-                      : ""
-                  }`}
-                >
-                  {note}
-                </span>
-              </li>
+                note={note}
+                handleRemoveNote={handleRemoveNote}
+                showScale={showScale}
+                selectedKey={selectedKey}
+              />
             );
           })}
         </ul>
-        <div className={`flats-sharps-toggle${selectedNotes.length ? '' : ' no-scale-displayed'}`}>
-          <span
-            title={`Display ${showFlats ? "Sharps" : "Flats"}`}
-            className={`display-${showFlats ? "sharps" : "flats"}`}
-            onClick={toggleFlatsSharps}
-          >
-            {showFlats ? "♯" : "♭"}
-          </span>
-        </div>
+        <FlatsSharpsToggle
+          selectedNotes={selectedNotes}
+          showFlats={showFlats}
+          toggleFlatsSharps={toggleFlatsSharps}
+        />
       </div>
     </div>
   );

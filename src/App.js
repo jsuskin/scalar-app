@@ -40,7 +40,7 @@ class App extends Component {
     this.setState({ fretMap: [...fretMap] });
 
     // log user in
-    if(localStorage.authToken) {
+    if (localStorage.authToken) {
       const token = localStorage.authToken;
       const userId = jwt(token);
 
@@ -63,23 +63,28 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    const [ currentNotes, newNotes ] = [
-      ...(
-        this.state.showFlats
+    const [currentNotes, newNotes] = [
+      ...(this.state.showFlats
         ? [Object.values(notes), Object.values(flatNotes)]
-        : [Object.values(flatNotes), Object.values(notes)]
-        )
-      ]
-      .filter(note => note.length > 1);
-      
+        : [Object.values(flatNotes), Object.values(notes)])
+    ].filter(note => note.length > 1);
+
     // display flats/sharps
-    return newNotes
-      .forEach((note, idx) => replaceOnDocument(currentNotes[idx], note));
+    return newNotes.forEach((note, idx) =>
+      replaceOnDocument(currentNotes[idx], note)
+    );
   }
 
   handleChangeColorScheme = color => this.setState({ colorScheme: color });
 
-  handleTitleClick = () => this.setState(updateState(this.state, initialState));
+  // revert everything (i.e. clear fretboard, clear active group, revert tuning) except color scheme
+  handleTitleClick = () =>
+    this.setState(
+      updateState(this.state, {
+        ...initialState,
+        colorScheme: this.state.colorScheme
+      })
+    );
 
   handleFretClick = (fret, noteIdx) => {
     // format to store in this.state.selectedFrets; ex: fret = 'string-5-fret-0'

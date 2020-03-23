@@ -29,7 +29,7 @@ export default function ActiveGroup({
         setShowGroup(true);
       }
 
-      if (e.target.className === "group-select") {
+      if (e.target.className.match(/group-select|group-scale-selections/)) {
         setShowGroupModal(true);
         setShowGroup(false);
       }
