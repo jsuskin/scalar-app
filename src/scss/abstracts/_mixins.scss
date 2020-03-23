@@ -40,12 +40,26 @@
   }
 
   .user-option {
+    position: relative;
     box-sizing: border-box;
-    border-top: 5px solid transparent;
-    transition: border-top 0.3s ease-out;
+    
+    &:after {
+      position: absolute;
+      content: "";
+      top: 0;
+      left: 50%;
+      right: 50%;
+      width: 0;
+      border-top: 5px solid rgba($secondary, 1);
+      transition: .111s;
+    }
 
     &:hover {
-      border-top: 5px solid $secondary;
+      &:after {
+        left: 0;
+        right: 0;
+        width: 100%;
+      }
     }
   }
 

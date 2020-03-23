@@ -44,6 +44,11 @@ header {
         cursor: pointer;
         padding: 0 1em;
         height: 8vh;
+
+        span {
+          vertical-align: middle;
+          padding: 0;
+        }
       }
 
       .modal {
