@@ -102,6 +102,7 @@
         background-position: 0% 50%;
       }
     }
+
     @-moz-keyframes TextGlow {
       0% {
         background-position: 0% 50%;
@@ -113,6 +114,7 @@
         background-position: 0% 50%;
       }
     }
+
     @keyframes TextGlow {
       0% {
         background-position: 0% 50%;
@@ -157,10 +159,12 @@
     );
   }
 
+  .bottom-panel-btn, .flats-sharps-toggle.no-scale-displayed span::after {
+    background: -webkit-radial-gradient(lighten($grey-1, 25%), $grey-1);
+  }
+
   .bottom-panel-btn {
     transition: all 0.5s ease;
-    // background: $grey-1;
-    background: -webkit-radial-gradient(lighten($grey-1, 25%), $grey-1);
   }
 
   .selection-container select,

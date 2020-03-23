@@ -35,9 +35,10 @@ function ScaleDisplay({
             );
           })}
         </ul>
-        <div className='flats-sharps-toggle'>
+        <div className={`flats-sharps-toggle${selectedNotes.length ? '' : ' no-scale-displayed'}`}>
           <span
             title={`Display ${showFlats ? "Sharps" : "Flats"}`}
+            className={`display-${showFlats ? "sharps" : "flats"}`}
             onClick={toggleFlatsSharps}
           >
             {showFlats ? "♯" : "♭"}
