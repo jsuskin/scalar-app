@@ -8,6 +8,8 @@ function Header({
   username,
   colorScheme,
   fretMap,
+  groupName,
+  setGroupName,
   handleTitleClick,
   handleChangeColorScheme,
   handleFormChange,
@@ -16,7 +18,6 @@ function Header({
   handleRegister,
   handleSignOut
 }) {
-  const [groupName, setGroupName] = useState("");
   const [groupId, setGroupId] = useState(null);
   const [showGroup, setShowGroup] = useState(false);
   const [showGroupModal, setShowGroupModal] = useState(false);

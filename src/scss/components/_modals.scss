@@ -63,6 +63,10 @@
     }
 
     .group-scale-selections {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      
       .group-scale-selection {
         display: flex;
         flex-direction: column;
@@ -76,12 +80,12 @@
 
           &.float-left {
             align-self: flex-start;
-            padding-left: 4em;
+            padding-left: 3em;
           }
 
           &.float-right {
             align-self: flex-end;
-            padding-right: 4em;
+            padding-right: 3em;
           }
         }
       }
@@ -159,8 +163,12 @@
       margin: 1.5% 5% 0 5%;
       font-size: 1.3em;
 
-      span {
+      .view-more-groups {
         cursor: pointer;
+        &.disabled {
+          opacity: 0.333;
+          cursor: default;
+        }
       }
     }
   }

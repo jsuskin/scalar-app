@@ -5,6 +5,7 @@ import BottomPanelButtons from "./BottomPanel/BottomPanelButtons";
 
 function DisplayArea({
   loggedIn,
+  showFlats,
   showScale,
   addToFretMap,
   tuning,
@@ -44,6 +45,7 @@ function DisplayArea({
           selectedNotes={selectedNotes}
           selectedKey={selectedKey}
           showScale={showScale}
+          showFlats={showFlats}
           handleRemoveNote={handleRemoveNote}
           toggleFlatsSharps={toggleFlatsSharps}
         />

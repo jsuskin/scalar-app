@@ -12,7 +12,7 @@ export default function SaveGroupModal({ showModal, closeModal, saveGroup }) {
       if (e.target.value === "Custom") {
         setShowTextInput(true);
       } else {
-        setSelectedGroup(groups.find(group => group.name === e.target.value))
+        setSelectedGroup(groups.find(group => group.name === e.target.value));
       }
     }
     setGroupName(e.target.value);
@@ -21,6 +21,7 @@ export default function SaveGroupModal({ showModal, closeModal, saveGroup }) {
   useEffect(() => {
     const handleModalClick = e => {
       const parent = document.querySelectorAll(".group-name-modal")[0];
+      
       if (
         parent &&
         !parent.contains(e.target) &&
@@ -30,8 +31,16 @@ export default function SaveGroupModal({ showModal, closeModal, saveGroup }) {
         closeModal();
     };
     
-    fetchGroups(setGroups);
+    fetchGroups(setGroups).then(() => {
+      if(groups.length) {
+        setSelectedGroup(groups[0]);
+        setGroupName(groups[0].name);
+      }
+    });
+
     window.addEventListener("click", handleModalClick);
+
+    return () => window.removeEventListener("click", handleModalClick);
   }, [closeModal]);
 
   return (

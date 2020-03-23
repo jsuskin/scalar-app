@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Header from "./components/header/Header";
 import Content from "./components/content/Content";
 import Footer from "./components/footer/Footer";
-import jwt from 'jwt-decode';
-import { notes, tunings } from "./data";
+import jwt from "jwt-decode";
+import { notes, flatNotes, tunings } from "./data";
 import {
   initialState,
   updateState,
@@ -13,7 +13,8 @@ import {
   newTuningSelectedFrets,
   newScaleSelectedFrets,
   loginPost,
-  registerPost
+  registerPost,
+  replaceOnDocument
 } from "./utils/HelperMethods";
 import "./scss/main.scss";
 
@@ -22,10 +23,11 @@ const fretMap = [];
 class App extends Component {
   state = {
     user: {
-      username: '',
-      password: ''
+      username: "",
+      password: ""
     },
     loggedIn: !!localStorage.authToken,
+    showFlats: false,
     iteration: 0,
     prevState: {},
     showPrevState: false,
@@ -34,15 +36,17 @@ class App extends Component {
   };
 
   componentDidMount() {
+    // fretMap: ["string-1-fret-0-E", "string-1-fret-1-F", "string-1-fret-2-F#", ...]
     this.setState({ fretMap: [...fretMap] });
 
+    // log user in
     if(localStorage.authToken) {
       const token = localStorage.authToken;
       const userId = jwt(token);
 
       fetch(`http://localhost:4000/api/user/${userId._id}`, {
         headers: {
-          'auth-token': localStorage.authToken
+          "auth-token": localStorage.authToken
         }
       })
         .then(res => res.json())
@@ -56,6 +60,21 @@ class App extends Component {
           });
         });
     }
+  }
+
+  componentDidUpdate() {
+    const [ currentNotes, newNotes ] = [
+      ...(
+        this.state.showFlats
+        ? [Object.values(notes), Object.values(flatNotes)]
+        : [Object.values(flatNotes), Object.values(notes)]
+        )
+      ]
+      .filter(note => note.length > 1);
+      
+    // display flats/sharps
+    return newNotes
+      .forEach((note, idx) => replaceOnDocument(currentNotes[idx], note));
   }
 
   handleChangeColorScheme = color => this.setState({ colorScheme: color });
@@ -223,7 +242,7 @@ class App extends Component {
   addToFretMap = fretName => fretMap.push(fretName);
 
   toggleFlatsSharps = () => {
-    console.log("flats");
+    this.setState({ showFlats: !this.state.showFlats });
   };
 
   // highlight all dots across one fret
@@ -328,7 +347,7 @@ class App extends Component {
         [e.target.name]: e.target.value
       }
     });
-  }
+  };
 
   handleSignIn = e => {
     e.preventDefault();
@@ -338,12 +357,12 @@ class App extends Component {
         ...this.state,
         loggedIn: !!localStorage.authToken,
         user: {
-          username: !!localStorage.authToken ? this.state.user.username : '',
-          password: ''
+          username: !!localStorage.authToken ? this.state.user.username : "",
+          password: ""
         }
       });
     }, 500);
-  }
+  };
 
   handleRegister = (e, pw) => {
     e.preventDefault();
@@ -360,10 +379,10 @@ class App extends Component {
       this.setState({
         ...this.state,
         user: {
-          username: '',
-          password: ''
+          username: "",
+          password: ""
         }
-      })
+      });
     }
   };
 
@@ -373,28 +392,35 @@ class App extends Component {
       ...this.state,
       loggedIn: false,
       user: {
-        username: '',
-        password: ''
+        username: "",
+        password: ""
       }
     });
-  }
+  };
 
   handleSelectFavorite = (name, noteIndices) => {
     const letterNotes = noteIndices.map(idx => notes[idx]);
     const letterNote = fret => fret.split("-")[4];
-    const selectedFrets = this.state.fretMap.filter(fret => letterNotes.includes(letterNote(fret)));
+    const selectedFrets = this.state.fretMap.filter(fret =>
+      letterNotes.includes(letterNote(fret))
+    );
     const allNotes = selectedFrets.map(fret => letterNote(fret));
-    const selectedNoteIndices = letterNotes.map(note => [Object.values(notes).indexOf(note), allNotes.filter(n => note === n).length]);
+    const selectedNoteIndices = letterNotes.map(note => [
+      Object.values(notes).indexOf(note),
+      allNotes.filter(n => note === n).length
+    ]);
 
     this.setState(
       updateState(this.state, {
         selectedFrets: selectedFrets,
         selectedNoteIndices: selectedNoteIndices,
-        selectedScale: 'None',
+        selectedScale: "None",
         showScale: false
       })
     );
-  }
+  };
+
+  handleSetActiveGroup = name => this.setState({ activeGroup: name });
 
   render() {
     return (
@@ -404,6 +430,8 @@ class App extends Component {
           username={this.state.user.username}
           colorScheme={this.state.colorScheme}
           fretMap={this.state.fretMap}
+          groupName={this.state.activeGroup}
+          setGroupName={this.handleSetActiveGroup}
           handleTitleClick={this.handleTitleClick}
           handleChangeColorScheme={this.handleChangeColorScheme}
           handleFormChange={this.handleFormChange}

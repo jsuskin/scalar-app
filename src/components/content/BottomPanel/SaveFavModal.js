@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 
 export default function SaveFavModal({ saveScale, name, setName, showModal, closeModal }) {
   useEffect(() => {
@@ -16,9 +16,9 @@ export default function SaveFavModal({ saveScale, name, setName, showModal, clos
     };
 
     window.addEventListener("click", handleModalClick);
-  }, [closeModal, setName]);
 
-  // console.log(name)
+    return () => window.removeEventListener("click", handleModalClick);
+  }, [closeModal, setName]);
   
   return (
     <div className={`scale-name-modal${showModal ? ' show-modal' : ''}`}>

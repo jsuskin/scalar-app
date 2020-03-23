@@ -12,7 +12,28 @@ export const initialState = {
   selectedScale: "None",
   selectedKey: "A",
   showScale: false,
+  activeGroup: '',
   colorScheme: "brown"
+};
+
+export const replaceOnDocument = (
+  pattern,
+  string,
+  { target = document.body } = {}
+) => {
+  [
+    target,
+    ...target.querySelectorAll(
+      "*:not(script):not(noscript):not(style):not(.flats-sharps-toggle)"
+    )
+  ].forEach(({ childNodes: [...nodes] }) =>
+    nodes
+      .filter(({ nodeType }) => nodeType === document.TEXT_NODE)
+      .forEach(
+        textNode =>
+          (textNode.textContent = textNode.textContent.replace(pattern, string))
+      )
+  );
 };
 
 function limitIterationsOfPrevStateInPrevState(previousState) {

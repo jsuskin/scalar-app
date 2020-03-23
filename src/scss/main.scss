@@ -160,19 +160,20 @@ body {
   }
 
   .flats-sharps-toggle {
-    display: none;
     position: absolute;
-    // border: 1px dotted orange;
-    width: 100%;
-    height: 100%;
-    text-align: right;
+    right: 0;
+    transition: .11s transform ease;
+
+    &:hover {
+      transform: rotate(20deg);
+    }
 
     span {
       position: relative;
-      // border: 1px dotted orange;
       height: 100%;
-      font-size: .666em;
+      font-size: 1.4em;
       top: 50%;
+      cursor: pointer;
     }
   }
 }

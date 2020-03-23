@@ -1,37 +1,51 @@
-import React, { Component } from 'react';
-import { notes } from '../../../data';
+import React, { Component } from "react";
+import { notes } from "../../../data";
 
-class ScaleDisplay extends Component {
+function ScaleDisplay({
+  selectedNotes,
+  selectedKey,
+  showScale,
+  showFlats,
+  handleRemoveNote,
+  toggleFlatsSharps
+}) {
+  const scale = selectedNotes.map(idx => notes[idx]); // ex: ['C','D','E','F','G','A','B']
 
-  render() {
-    const scale = this.props.selectedNotes.map(idx => notes[idx]);  // ex: ['C','D','E','F','G','A','B']
-
-    return (
-      <div className="scale-display-container">
-        <div className="scale-display">
-          <ul>
-            {
-              scale.sort().map((note, idx) => {
-                return (
-                  <li
-                    key={idx}
-                    className="note-display"
-                    onClick={() => this.props.handleRemoveNote(note)}
-                  >
-                    <span className={`displayed-note${this.props.showScale && note === this.props.selectedKey ? ' note-display-root' : ''}`}>{note}</span>
-                  </li>
-                )
-              })
-            }
-          </ul>
-          <div className="flats-sharps-toggle" onClick={this.props.toggleFlatsSharps}>
-            <span>Show Flats</span>
-          </div>
+  return (
+    <div className='scale-display-container'>
+      <div className='scale-display'>
+        <ul>
+          {scale.sort().map((note, idx) => {
+            return (
+              <li
+                key={idx}
+                className='note-display'
+                onClick={() => handleRemoveNote(note)}
+              >
+                <span
+                  className={`displayed-note${
+                    showScale && note === selectedKey
+                      ? " note-display-root"
+                      : ""
+                  }`}
+                >
+                  {note}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+        <div className='flats-sharps-toggle'>
+          <span
+            title={`Display ${showFlats ? "Sharps" : "Flats"}`}
+            onClick={toggleFlatsSharps}
+          >
+            {showFlats ? "♯" : "♭"}
+          </span>
         </div>
       </div>
-    );
-  }
-
+    </div>
+  );
 }
 
 export default ScaleDisplay;

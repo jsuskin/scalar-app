@@ -29,6 +29,7 @@ function Content(props) {
       />
       <DisplayArea
         loggedIn={props.loggedIn}
+        showFlats={props.showFlats}
         showScale={props.showScale}
         selectedNotes={selectedNotes}
         selectedScale={props.selectedScale}
