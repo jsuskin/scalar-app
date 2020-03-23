@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import FlatsSharpsToggle from "./FlatsSharpsToggle";
 import Note from "./Note";
-import { notes } from "../../../data";
+import { notes } from "../../../../data";
 
 function ScaleDisplay({
   selectedNotes,

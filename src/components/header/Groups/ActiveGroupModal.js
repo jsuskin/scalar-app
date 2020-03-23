@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ModalFretboard from "./ModalFretboard";
-import { fetchGroup } from "../../utils/HelperMethods";
-import { notes } from "../../data";
+import { fetchGroup } from "../../../utils/HelperMethods";
+import { notes } from "../../../data";
 
 export default function ActiveGroupModal({
   fretMap,

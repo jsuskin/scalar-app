@@ -1,7 +1,7 @@
 import React from "react";
 import Fretboard from "./fretboard/Fretboard";
-import ScaleDisplay from "./BottomPanel/ScaleDisplay";
-import BottomPanelButtons from "./BottomPanel/BottomPanelButtons";
+import ScaleDisplay from "./BottomPanel/ScaleDisplay/ScaleDisplay";
+import BottomPanelButtons from "./BottomPanel/Buttons/BottomPanelButtons";
 
 function DisplayArea({
   loggedIn,

@@ -1,5 +1,5 @@
 import React from "react";
-import SignInModal from "./SignInModal";
+import SignInModal from "../SignIn/SignInModal";
 
 export default function SignedOut({
   showModal,

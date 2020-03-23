@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Favorites from "./Favorites";
-import Groups from "./Groups";
+import Favorites from "../Favorites/Favorites";
+import Groups from "../Groups/Groups";
 
 export default function SignedIn({
   username,

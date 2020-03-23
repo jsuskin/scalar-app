@@ -1,5 +1,5 @@
 import React from 'react';
-import { notes } from '../../data';
+import { notes } from '../../../data';
 
 export default function ModalFretboard({ fretMap, scaleNotes }) {
   return (

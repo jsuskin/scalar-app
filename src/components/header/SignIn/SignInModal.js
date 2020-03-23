@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SignInForm from './SignInForm';
-import RegisterForm from './RegisterForm';
+import RegisterForm from '../Register/RegisterForm';
 
 export default function SignInModal({
   showModal,

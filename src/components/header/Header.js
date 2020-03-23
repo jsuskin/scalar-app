@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import SchemeSelector from "./SchemeSelector";
-import UserOptionsArea from "./UserOptionsArea";
-import ActiveGroup from "./ActiveGroup";
+import SchemeSelector from "./UserOptionsArea/SchemeSelector";
+import UserOptionsArea from "./UserOptionsArea/UserOptionsArea";
+import ActiveGroup from "./Groups/ActiveGroup";
 
 function Header({
   loggedIn,

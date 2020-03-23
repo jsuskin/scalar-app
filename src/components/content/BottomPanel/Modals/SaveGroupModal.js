@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchGroups, selectedNoteIndices } from '../../../utils/HelperMethods';
+import { fetchGroups, selectedNoteIndices } from '../../../../utils/HelperMethods';
 
 export default function SaveGroupModal({ showModal, closeModal, saveGroup }) {
   const [ groups, setGroups ] = useState({ groups: [] });

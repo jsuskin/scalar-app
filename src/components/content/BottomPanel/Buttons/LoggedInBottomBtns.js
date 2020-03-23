@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import SaveFavModal from "./SaveFavModal";
-import SaveGroupModal from "./SaveGroupModal";
+import SaveFavModal from "../Modals/SaveFavModal";
+import SaveGroupModal from "../Modals/SaveGroupModal";
 import BottomPanelButton from "./BottomPanelButton";
-import { postFav, postScaleToNewGroup, patchScaleToGroup } from "../../../utils/HelperMethods";
+import { postFav, postScaleToNewGroup, patchScaleToGroup } from "../../../../utils/HelperMethods";
 
 export default function LoggedInBottomBtns({ selectedNotes, selectedScale }) {
   const [showNameModal, setShowNameModal] = useState(false);
