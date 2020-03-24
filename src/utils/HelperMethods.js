@@ -3,7 +3,8 @@ import axios from "axios";
 
 let iteration = 0;
 
-export const url = "http://localhost:4000";
+// export const url = "http://localhost:4000";
+export const url = "https://scalar-db.herokuapp.com";
 
 export const initialState = {
   selectedFrets: [],
@@ -257,6 +258,16 @@ export const fetchUser = async (userId, func) => {
   });
 
   func(result.data);
+};
+
+export const fetchFavs = async setFavs => {
+  const result = await axios(`${url}/api/favorites`, {
+    headers: {
+      "auth-token": localStorage.authToken
+    }
+  });
+
+  setFavs(result.data);
 };
 
 export const registerPost = userData => {

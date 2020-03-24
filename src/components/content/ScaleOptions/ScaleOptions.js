@@ -1,23 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Select from './Select';
 import { scales, notes, tunings } from '../../../data';
-import axios from 'axios';
+import { fetchFavs } from '../../../utils/HelperMethods';
 
 function ScaleOptions(props) {
+  // TODO: write code to list favs in 'scales' dropdown
   const [favs, setFavs] = useState([]);
 
   useEffect(() => {
     if(localStorage.authToken) {
-      const fetchData = async () => {
-        const result = await axios("http://localhost:4000/api/favorites", {
-          headers: {
-            "auth-token": localStorage.authToken
-          }
-        });
-
-        setFavs(result.data);
-      };
-      fetchData();
+      fetchFavs(setFavs);
     } else {
       setFavs([]);
     }

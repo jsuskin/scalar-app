@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { fetchFavs } from '../../../utils/HelperMethods';
 
 export default function Favorites({ show, closeModal, handleSelectFavorite }) {
   const [ favs, setFavs ] = useState({ favs: [] });
 
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios("http://localhost:4000/api/favorites", {
-        headers: {
-          "auth-token": localStorage.authToken
-        }
-      });
-
-      setFavs(result.data);
-    }
-
     const handleModalClick = e => {
       const parent = document.querySelectorAll(".favorites-modal")[0];
       if (e.target.className === 'favorite' || (parent && !parent.contains(e.target) && e.target.id !== "favorites"))
@@ -23,7 +14,7 @@ export default function Favorites({ show, closeModal, handleSelectFavorite }) {
 
     window.addEventListener("click", handleModalClick);
 
-    fetchData();
+    fetchFavs(setFavs);
   }, [closeModal])
 
   return (
