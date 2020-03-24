@@ -271,7 +271,7 @@ export const fetchFavs = async setFavs => {
 };
 
 export const registerPost = userData => {
-  fetch(`${url}api/user/register`, {
+  fetch(`${url}/api/user/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
