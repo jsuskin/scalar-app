@@ -3,6 +3,8 @@ import axios from "axios";
 
 let iteration = 0;
 
+export const url = "http://localhost:4000";
+
 export const initialState = {
   selectedFrets: [],
   highlightFretNumbers: [],
@@ -225,7 +227,7 @@ export const compatibleScales = (
 // FETCHES
 
 export const loginPost = (userData) => {
-  fetch("http://localhost:4000/api/user/login", {
+  fetch(`${url}/api/user/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -247,8 +249,18 @@ export const loginPost = (userData) => {
     });
 }
 
+export const fetchUser = async (userId, func) => {
+  const result = await axios(`${url}/api/user/${userId}`, {
+    headers: {
+      "auth-token": localStorage.authToken
+    }
+  });
+
+  func(result.data);
+};
+
 export const registerPost = userData => {
-  fetch("http://localhost:4000/api/user/register", {
+  fetch(`${url}api/user/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -271,7 +283,7 @@ export const registerPost = userData => {
 }
 
 export const postFav = (scaleName, selectedNotes) => {
-  fetch("http://localhost:4000/api/favorites", {
+  fetch(`${url}/api/favorites`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -283,7 +295,7 @@ export const postFav = (scaleName, selectedNotes) => {
 };
 
 export const fetchGroups = async (func) => {
-  const result = await axios("http://localhost:4000/api/groups", {
+  const result = await axios(`${url}/api/groups`, {
     headers: {
       "auth-token": localStorage.authToken
     }
@@ -293,7 +305,7 @@ export const fetchGroups = async (func) => {
 };
 
 export const fetchGroup = async (groupId, func) => {
-  const result = await axios(`http://localhost:4000/api/groups/${groupId}`, {
+  const result = await axios(`${url}/api/groups/${groupId}`, {
     headers: {
       "auth-token": localStorage.authToken
     }
@@ -303,7 +315,7 @@ export const fetchGroup = async (groupId, func) => {
 };
 
 export const postScaleToNewGroup = (name, selectedNotes, selectedScale) => {
-  fetch("http://localhost:4000/api/groups", {
+  fetch(`${url}/api/groups`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -321,7 +333,7 @@ export const postScaleToNewGroup = (name, selectedNotes, selectedScale) => {
 };
 
 export const patchScaleToGroup = (id, selectedNotes, scaleName) => {
-  fetch(`http://localhost:4000/api/groups/${id}`, {
+  fetch(`${url}/api/groups/${id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

@@ -5,6 +5,7 @@ import Footer from "./components/footer/Footer";
 import jwt from "jwt-decode";
 import { notes, flatNotes, tunings } from "./data";
 import {
+  fetchUser,
   initialState,
   updateState,
   updateFretMap,
@@ -44,21 +45,15 @@ class App extends Component {
       const token = localStorage.authToken;
       const userId = jwt(token);
 
-      fetch(`http://localhost:4000/api/user/${userId._id}`, {
-        headers: {
-          "auth-token": localStorage.authToken
-        }
-      })
-        .then(res => res.json())
-        .then(data => {
-          this.setState({
-            ...this.state,
-            user: {
-              ...this.state.user,
-              username: data.username
-            }
-          });
+      fetchUser(userId._id, data => {
+        this.setState({
+          ...this.state,
+          user: {
+            ...this.state.user,
+            username: data.username
+          }
         });
+      });
     }
   }
 
