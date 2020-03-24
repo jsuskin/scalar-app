@@ -55,11 +55,9 @@ export default function SaveGroupModal({ showModal, closeModal, saveGroup }) {
         </label>
         {!showTextInput ? (
           <select onChange={handleChange}>
-            {groups.length
-              ? [...groups, { name: "Custom", _id: 0 }].map(group => {
+            {[...groups, { name: "Custom", _id: 0 }].map(group => {
                   return <option key={group._id}>{group.name}</option>;
-                })
-              : null}
+                })}
           </select>
         ) : (
           <>
