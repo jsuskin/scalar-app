@@ -77,6 +77,10 @@ class App extends Component {
     this.setState(
       updateState(this.state, {
         ...initialState,
+        fretMap: updateFretMap(
+          tunings['E Standard'].map(idx => notes[idx]),
+          this.state.fretMap
+        ),
         colorScheme: this.state.colorScheme
       })
     );
