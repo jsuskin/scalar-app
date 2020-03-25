@@ -3,7 +3,7 @@ import { fetchGroups, selectedNoteIndices } from '../../../../utils/HelperMethod
 
 export default function SaveGroupModal({ showModal, closeModal, saveGroup }) {
   const [ groups, setGroups ] = useState({ groups: [] });
-  const [ showTextInput, setShowTextInput ] = useState(false);
+  const [ showTextInput, setShowTextInput ] = useState(true);
   const [ groupName, setGroupName ] = useState("");
   const [ selectedGroup, setSelectedGroup ] = useState({})
 
@@ -35,6 +35,7 @@ export default function SaveGroupModal({ showModal, closeModal, saveGroup }) {
       if(groups.length) {
         setSelectedGroup(groups[0]);
         setGroupName(groups[0].name);
+        setShowTextInput(false);
       }
     });
 
